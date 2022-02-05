@@ -1,14 +1,14 @@
 package br.com.data.localSource
 
 import br.com.MockGistProvider
-import br.com.data.BaseTest
+import br.com.data.InstrumentedTest
 import br.com.data.localSource.dao.FileDao
 import br.com.data.localSource.entity.File
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class FileDaoTest : BaseTest() {
+class FileDaoTest : InstrumentedTest() {
 
     private val fileDao: FileDao by lazy { app.fileDao }
 

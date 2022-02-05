@@ -15,7 +15,13 @@ class GistRepository(
     private val gistDao = gistDatabase.gistDao()
 
     fun getGists() = gistDao.getAll()
+
+    fun getFavoriteGists() = gistDao.getFavorites()
+
     fun getFiles() = fileDao.getAll()
+
+    fun favoriteGist( gistId : String) = gistDao.favorite(gistId, true)
+    fun unFavoriteGist( gistId : String) = gistDao.favorite(gistId, false)
 
     suspend fun queryGistAndSave(){
         githubGistService.getGists().result(

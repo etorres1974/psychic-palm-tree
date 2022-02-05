@@ -5,7 +5,9 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnitRunner
 import br.com.DataTestRunner
+import br.com.MockWebServerTest
 import br.com.data.localSource.GistDatabase
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -19,7 +21,7 @@ class MockTestRunner : AndroidJUnitRunner() {
 
 }
 
-open class BaseTest(){
+open class InstrumentedTest() : MockWebServerTest(){
 
     lateinit var context: Context
     lateinit var app : DataTestRunner
@@ -33,7 +35,9 @@ open class BaseTest(){
     }
 
     @After
-    open fun teardown(){
+    override fun teardown() {
+        super.teardown()
         db.clearAllTables()
     }
+
 }

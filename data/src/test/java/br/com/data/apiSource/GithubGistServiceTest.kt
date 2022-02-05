@@ -1,7 +1,9 @@
 package br.com.data.apiSource
 
+import br.com.BaseTest
 import br.com.MockGithubGistService
 import br.com.DataTestRunner
+import br.com.MockWebServerTest
 import br.com.data.apiSource.network.ErrorEntity
 import br.com.data.apiSource.network.result
 import br.com.data.servicesModules
@@ -15,20 +17,13 @@ import org.koin.test.KoinTestRule
 import org.koin.test.inject
 import java.lang.AssertionError
 
-class GithubGistServiceTest : KoinTest {
+class GithubGistServiceTest : MockWebServerTest() , KoinTest {
 
     private val githubGistService : GithubGistService by inject()
-    private lateinit var mockWebServer : MockWebServer
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         modules( servicesModules(DataTestRunner.MOCK_BASE_URL) )
-    }
-
-    @After
-    fun teardown(){
-        mockWebServer.dispatcher.shutdown()
-        mockWebServer.shutdown()
     }
 
     @Test

@@ -1,17 +1,14 @@
 package br.com.data.localSource
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.MockGistProvider
-import br.com.data.BaseTest
+import br.com.data.InstrumentedTest
 import br.com.data.localSource.dao.GistDao
 import br.com.data.localSource.entity.Gist
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-class GistDaoTest : BaseTest() {
+class GistDaoTest : InstrumentedTest() {
 
     private val gistDao: GistDao by lazy { app.gistDao }
 
