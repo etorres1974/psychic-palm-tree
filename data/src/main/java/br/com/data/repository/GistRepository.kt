@@ -14,6 +14,9 @@ class GistRepository(
     private val fileDao = gistDatabase.fileDao()
     private val gistDao = gistDatabase.gistDao()
 
+    fun getGists() = gistDao.getAll()
+    fun getFiles() = fileDao.getAll()
+
     suspend fun queryGistAndSave(){
         githubGistService.getGists().result(
             success = { gists ->
@@ -25,7 +28,7 @@ class GistRepository(
         )
     }
 
-    fun saveRemoteGist(gist : GistDTO){
+    private fun saveRemoteGist(gist : GistDTO){
         val gistDb = gist.toDbModel()
         val files = gist.getFilesDb()
         gistDao.insert(gistDb)
