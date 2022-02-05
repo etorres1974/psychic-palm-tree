@@ -1,5 +1,8 @@
 package br.com.data.apiSource.models
 
+import br.com.data.localSource.entity.Gist
+import br.com.data.localSource.entity.GistModel
+
 data class GistDTO(
     val id: String,
     val owner: Owner,
@@ -18,7 +21,8 @@ data class GistDTO(
     val truncated: Boolean,
     val updated_at: String,
     val url: String,
-) {
+) : GistModel {
+
     data class Files(val list : List<File>)
     data class File(
         val filename: String,
@@ -48,4 +52,12 @@ data class GistDTO(
         val type: String,
         val url: String
     )
+
+    override fun toDbModel() = Gist(
+        id = id,
+        owner_id = owner.id,
+        avatar_url = owner.avatar_url,
+        login = owner.login,
+        description = description
+   )
 }

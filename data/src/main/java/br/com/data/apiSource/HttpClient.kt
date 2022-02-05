@@ -1,5 +1,6 @@
 package br.com.data.apiSource
 
+import br.com.DataApplication
 import br.com.data.apiSource.models.GistDTO
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
@@ -9,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class HttpClient(
-    private val baseUrl : String = GITHUB_GIST
+    private val baseUrl : String = DataApplication().getBaseUrl()
 ) {
 
     private val loggerInterceptor = HttpLoggingInterceptor().apply {
@@ -36,8 +37,4 @@ class HttpClient(
         .build()
 
     fun gitHubGistService(): GithubGistService = retrofit().create(GithubGistService::class.java)
-
-    companion object{
-        const val GITHUB_GIST = "https://api.github.com"
-    }
 }

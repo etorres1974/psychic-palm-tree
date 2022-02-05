@@ -2,13 +2,17 @@ package br.com.data.localSource.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.data.apiSource.models.GistDTO
 
 @Entity
 data class Gist(
-    @PrimaryKey() val id : String
+    @PrimaryKey() val id : String,
+    val avatar_url: String,
+    val owner_id: Int,
+    val login: String,
+    val description: String
 )
 
-fun GistDTO.toDbModel() = Gist(
-    id = id
-)
+
+interface GistModel{
+    fun toDbModel() : Gist
+}

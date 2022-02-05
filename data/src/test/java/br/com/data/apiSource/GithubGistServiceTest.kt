@@ -1,5 +1,6 @@
 package br.com.data.apiSource
 
+import br.com.MockGithubGistService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import java.lang.AssertionError

@@ -1,5 +1,7 @@
-package br.com.data.apiSource
+package br.com
 
+import br.com.data.apiSource.GithubGistService
+import br.com.data.apiSource.HttpClient
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -13,13 +15,15 @@ class MockGithubGistService {
 
     fun errorApi() = getApi(errorDispatcher())
 
-    private fun getApi(dispatcher: Dispatcher): GithubGistService {
+    private fun getApi(dispatcher: Dispatcher): GithubGistService  {
         val mockWebServer = MockWebServer(dispatcher)
+        mockWebServer.start(8080)
         val mockUrl = mockWebServer.url("/").toString()
+        //TODO - Alterar Injeção da aplição para usar o MockTestRunner
         return HttpClient(mockUrl).gitHubGistService()
     }
 
-    private fun MockWebServer(dispatcher: Dispatcher) = MockWebServer().apply {
+    private fun MockWebServer(dispatcher: Dispatcher) : MockWebServer = MockWebServer().apply {
         this.dispatcher = dispatcher
     }
 

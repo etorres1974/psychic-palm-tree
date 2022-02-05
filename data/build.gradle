@@ -12,7 +12,20 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "br.com.data.MockTestRunner"
+
+    }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTest/java"
+            resources.srcDirs += ['src/sharedTest/resources']
+        }
+        test {
+            java.srcDirs += "src/sharedTest/java"
+            resources.srcDirs += ['src/sharedTest/resources']
+        }
     }
 }
 
@@ -36,6 +49,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     testImplementation("com.squareup.okhttp3:mockwebserver:$okhttp_version")
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 
     //Room
     def room_version = "2.4.1"
