@@ -1,11 +1,13 @@
 package br.com.data.apiSource.models
 
+import br.com.data.localSource.entity.File
+import br.com.data.localSource.entity.FileModel
 import br.com.data.localSource.entity.Gist
 import br.com.data.localSource.entity.GistModel
 
 data class GistDTO(
     val id: String,
-    val owner: Owner,
+    val owner: OwnerDTO,
     val files: Files,
     val comments: Int,
     val comments_url: String,
@@ -21,18 +23,20 @@ data class GistDTO(
     val truncated: Boolean,
     val updated_at: String,
     val url: String,
-) : GistModel {
+) : GistModel , FileModel{
 
-    data class Files(val list : List<File>)
-    data class File(
+    data class Files(val list : List<FileDTO>)
+
+    data class FileDTO(
         val filename: String,
-        val language: Any,
+        val language: String?,
         val raw_url: String,
         val size: Int,
         val type: String
     )
 
-    data class Owner(
+
+    data class OwnerDTO(
         val avatar_url: String,
         val events_url: String,
         val followers_url: String,
@@ -60,4 +64,15 @@ data class GistDTO(
         login = owner.login,
         description = description
    )
+
+    override fun getFilesDb(): List<File> = files.list.map {
+        File(
+            owner_id = id,
+            filename = it.filename,
+            language = it.language ?: "",
+            raw_url = it.raw_url,
+            size = it.size,
+            type = it.type
+        )
+    }
 }

@@ -9,7 +9,8 @@ data class Gist(
     val avatar_url: String,
     val owner_id: Int,
     val login: String,
-    val description: String
+    val description: String,
+    val favorite : Boolean = false
 )
 
 

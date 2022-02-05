@@ -1,5 +1,6 @@
-package br.com.data.apiSource
+package br.com.data.apiSource.network
 
+import br.com.data.apiSource.GithubGistService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package br.com.data.apiSource
+package br.com.data.apiSource.network
 
 import retrofit2.Response
 import kotlin.Exception

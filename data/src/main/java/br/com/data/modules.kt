@@ -2,9 +2,8 @@ package br.com.data
 
 
 import androidx.room.Room
-import br.com.data.apiSource.HttpClient
+import br.com.data.apiSource.network.HttpClient
 import br.com.data.localSource.GistDatabase
-import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.ext.getFullName
 

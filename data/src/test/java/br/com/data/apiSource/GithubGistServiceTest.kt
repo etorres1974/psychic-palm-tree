@@ -2,6 +2,9 @@ package br.com.data.apiSource
 
 import br.com.MockGithubGistService
 import br.com.DataTestRunner
+import br.com.data.apiSource.network.ErrorEntity
+import br.com.data.apiSource.network.HttpClient
+import br.com.data.apiSource.network.result
 import br.com.data.applicationModules
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer

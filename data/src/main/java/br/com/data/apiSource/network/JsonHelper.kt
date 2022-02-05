@@ -1,4 +1,4 @@
-package br.com.data.apiSource
+package br.com.data.apiSource.network
 
 import br.com.data.apiSource.models.GistDTO
 import com.google.gson.GsonBuilder
@@ -8,8 +8,8 @@ class JsonHelper {
 
     private val gistFileDeserializer = JsonDeserializer { jsonElement, _, context ->
         val jsonObject = jsonElement.asJsonObject
-        val gistFiles : List<GistDTO.File> =
-            jsonObject.entrySet().map{ context.deserialize(it.value, GistDTO.File::class.java)  }
+        val gistFiles : List<GistDTO.FileDTO> =
+            jsonObject.entrySet().map{ context.deserialize(it.value, GistDTO.FileDTO::class.java)  }
         GistDTO.Files(gistFiles)
     }
 

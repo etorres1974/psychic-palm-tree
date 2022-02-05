@@ -1,13 +1,10 @@
 package br.com
 
-import br.com.data.apiSource.GithubGistService
-import br.com.data.apiSource.HttpClient
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.koin.test.KoinTest
-import java.io.InputStreamReader
 import java.lang.IllegalArgumentException
 
 class MockGithubGistService : KoinTest {
