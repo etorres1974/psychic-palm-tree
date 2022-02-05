@@ -1,0 +1,49 @@
+[
+   {
+      "url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a",
+      "forks_url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a/forks",
+      "commits_url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a/commits",
+      "id":"24496db11f48ad5d67b420c4a9bab51a",
+      "node_id":"G_kwDOAYRM6toAIDI0NDk2ZGIxMWY0OGFkNWQ2N2I0MjBjNGE5YmFiNTFh",
+      "git_pull_url":"https://gist.github.com/24496db11f48ad5d67b420c4a9bab51a.git",
+      "git_push_url":"https://gist.github.com/24496db11f48ad5d67b420c4a9bab51a.git",
+      "html_url":"https://gist.github.com/24496db11f48ad5d67b420c4a9bab51a",
+      "files":{
+         "Changed Paths":{
+            "filename":"Changed Paths",
+            "type":"text/plain",
+            "language":null,
+            "raw_url":"https://gist.githubusercontent.com/GrahamcOfBorg/24496db11f48ad5d67b420c4a9bab51a/raw/72fa02f1e9461de3373bbfeefb38160261a7e695/Changed%20Paths",
+            "size":121514
+         }
+      },
+      "public":true,
+      "created_at":"2022-02-04T18:10:42Z",
+      "updated_at":"2022-02-04T18:10:42Z",
+      "description":"",
+      "comments":0,
+      "user":null,
+      "comments_url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a/comments",
+      "owner":{
+         "login":"GrahamcOfBorg",
+         "id":25447658,
+         "node_id":"MDQ6VXNlcjI1NDQ3NjU4",
+         "avatar_url":"https://avatars.githubusercontent.com/u/25447658?v=4",
+         "gravatar_id":"",
+         "url":"https://api.github.com/users/GrahamcOfBorg",
+         "html_url":"https://github.com/GrahamcOfBorg",
+         "followers_url":"https://api.github.com/users/GrahamcOfBorg/followers",
+         "following_url":"https://api.github.com/users/GrahamcOfBorg/following{/other_user}",
+         "gists_url":"https://api.github.com/users/GrahamcOfBorg/gists{/gist_id}",
+         "starred_url":"https://api.github.com/users/GrahamcOfBorg/starred{/owner}{/repo}",
+         "subscriptions_url":"https://api.github.com/users/GrahamcOfBorg/subscriptions",
+         "organizations_url":"https://api.github.com/users/GrahamcOfBorg/orgs",
+         "repos_url":"https://api.github.com/users/GrahamcOfBorg/repos",
+         "events_url":"https://api.github.com/users/GrahamcOfBorg/events{/privacy}",
+         "received_events_url":"https://api.github.com/users/GrahamcOfBorg/received_events",
+         "type":"User",
+         "site_admin":false
+      },
+      "truncated":false
+   }
+]
