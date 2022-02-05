@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -37,9 +37,16 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     testImplementation("com.squareup.okhttp3:mockwebserver:$okhttp_version")
 
+    //Room
+    def room_version = "2.4.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt "androidx.room:room-compiler:$room_version"
+
 
     //Paging
-    def paging_version = "2.1.2"
+    def paging_version = "3.1.0"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 

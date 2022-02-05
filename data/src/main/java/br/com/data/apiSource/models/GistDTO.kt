@@ -1,4 +1,4 @@
-package br.com.data.models
+package br.com.data.apiSource.models
 
 data class GistDTO(
     val id: String,

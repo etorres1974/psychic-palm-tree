@@ -1,4 +1,4 @@
-package br.com.data
+package br.com.data.apiSource
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

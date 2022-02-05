@@ -1,6 +1,6 @@
-package br.com.data
+package br.com.data.apiSource
 
-import br.com.data.models.GistDTO
+import br.com.data.apiSource.models.GistDTO
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
 import okhttp3.OkHttpClient
