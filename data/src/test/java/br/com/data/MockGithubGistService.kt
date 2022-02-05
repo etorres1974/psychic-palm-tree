@@ -45,7 +45,8 @@ class MockGithubGistService {
         val reader = InputStreamReader(this.javaClass.classLoader?.getResourceAsStream(filePath))
         return reader.readText().also { reader.close() }
     }
+
     companion object{
-        const val UNPROCESSABLE_ENTITY = "Status: 422 Unprocessable Entity"
+        private const val UNPROCESSABLE_ENTITY = "Status: 422 Unprocessable Entity"
     }
 }
