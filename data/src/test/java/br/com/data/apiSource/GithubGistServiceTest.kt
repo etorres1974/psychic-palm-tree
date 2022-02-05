@@ -1,17 +1,44 @@
 package br.com.data.apiSource
 
 import br.com.MockGithubGistService
+import br.com.DataTestRunner
+import br.com.data.applicationModules
 import kotlinx.coroutines.runBlocking
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.koin.test.KoinTest
+import org.koin.test.KoinTestRule
+import org.koin.test.inject
 import java.lang.AssertionError
 
-class GithubGistServiceTest {
+class GithubGistServiceTest : KoinTest {
 
+    private val httpClient : HttpClient by inject()
     private lateinit var githubGistService : GithubGistService
+    private lateinit var mockWebServer : MockWebServer
+
+    @get:Rule
+    val koinTestRule = KoinTestRule.create {
+        modules( applicationModules(DataTestRunner.MOCK_BASE_URL) )
+    }
+
+    @Before
+    fun setup(){
+        githubGistService  = httpClient.gitHubGistService()
+    }
+
+    @After
+    fun teardown(){
+        mockWebServer.dispatcher.shutdown()
+        mockWebServer.shutdown()
+    }
 
     @Test
     fun deserealize_gists_entities_correctly() = runBlocking {
-        githubGistService = HttpClient().gitHubGistService()
+        mockWebServer = MockGithubGistService().successApi()
         val response =  githubGistService.getGists()
 
         assert(response.isSuccessful)
@@ -35,8 +62,8 @@ class GithubGistServiceTest {
     }
 
     @Test
-    fun success_mock_api_returns_single_Gist_Json() = runBlocking {
-        githubGistService = MockGithubGistService().successApi()
+    fun success_mock_api_returns_Multiple_Gist_Json() = runBlocking {
+        mockWebServer = MockGithubGistService().successApi()
         val response = githubGistService.getGists()
 
         assert(response.isSuccessful)
@@ -44,7 +71,7 @@ class GithubGistServiceTest {
 
         response.result(
             success = { gists ->
-                assert(gists.size == 1)
+                assert(gists.size == 3)
                 {"Mocked Gist response should have only one Gist: ${gists.size}"}
             },
             error = { AssertionError(it) }
@@ -53,7 +80,7 @@ class GithubGistServiceTest {
 
     @Test
     fun error_mock_api_returns_422() = runBlocking {
-        githubGistService = MockGithubGistService().errorApi()
+        mockWebServer = MockGithubGistService().errorApi()
         val response = githubGistService.getGists()
 
         assert(response.code() == 422)

@@ -1,5 +1,4 @@
-[
-   {
+{
       "url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a",
       "forks_url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a/forks",
       "commits_url":"https://api.github.com/gists/24496db11f48ad5d67b420c4a9bab51a/commits",
@@ -45,5 +44,4 @@
          "site_admin":false
       },
       "truncated":false
-   }
-]
+}

@@ -6,22 +6,20 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.koin.test.KoinTest
 import java.io.InputStreamReader
 import java.lang.IllegalArgumentException
 
-class MockGithubGistService {
+class MockGithubGistService : KoinTest {
 
     fun successApi() = getApi(successDispatcher())
 
     fun errorApi() = getApi(errorDispatcher())
 
-    private fun getApi(dispatcher: Dispatcher): GithubGistService  {
-        val mockWebServer = MockWebServer(dispatcher)
-        mockWebServer.start(8080)
-        val mockUrl = mockWebServer.url("/").toString()
-        //TODO - Alterar Injeção da aplição para usar o MockTestRunner
-        return HttpClient(mockUrl).gitHubGistService()
+    private fun getApi(dispatcher: Dispatcher) =  MockWebServer(dispatcher).apply{
+        start(8080)
     }
+
 
     private fun MockWebServer(dispatcher: Dispatcher) : MockWebServer = MockWebServer().apply {
         this.dispatcher = dispatcher
@@ -30,7 +28,7 @@ class MockGithubGistService {
     private fun successDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when(request.path){
-                "/gists" -> MockResponse().setResponseCode(200).setBody(fileReader("SingleGist.json"))
+                "/gists" -> MockResponse().setResponseCode(200).setBody(fileReader("MultipleGists.json"))
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }
@@ -43,11 +41,6 @@ class MockGithubGistService {
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }
-    }
-
-    private fun fileReader(filePath: String): String {
-        val reader = InputStreamReader(this.javaClass.classLoader?.getResourceAsStream(filePath))
-        return reader.readText().also { reader.close() }
     }
 
     companion object{
