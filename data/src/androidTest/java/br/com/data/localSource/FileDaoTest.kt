@@ -1,45 +1,16 @@
 package br.com.data.localSource
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.DataTestRunner
 import br.com.MockGistProvider
+import br.com.data.BaseTest
 import br.com.data.localSource.dao.FileDao
 import br.com.data.localSource.entity.File
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.koin.test.KoinTest
-import java.io.IOException
 
-@RunWith(AndroidJUnit4::class)
-class FiletDaoTest : KoinTest {
+class FileDaoTest : BaseTest() {
 
-    private lateinit var  fileDao: FileDao
-    private lateinit var  db : GistDatabase
-
-    private fun gistDatabase(ctx : Context) = Room.inMemoryDatabaseBuilder(
-        ctx,
-        GistDatabase::class.java
-    ).build()
-
-    @Before
-    fun createDb(){
-        val context : DataTestRunner = ApplicationProvider.getApplicationContext()
-        db = gistDatabase(context)
-        fileDao = db.fileDao()
-    }
-
-    @After
-    @Throws(IOException::class)
-    fun closeDb() {
-        db.close()
-    }
+    private val fileDao: FileDao by lazy { app.fileDao }
 
     @Test
     fun insert_gist_on_dao() = runBlocking {

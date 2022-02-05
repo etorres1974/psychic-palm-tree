@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.data">
     <application
-        android:name="br.com.DataApplication"
+        android:name=".DataApplication"
         android:networkSecurityConfig="@xml/network_security_config"
     />
 

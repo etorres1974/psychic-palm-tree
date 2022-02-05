@@ -16,7 +16,7 @@ class HttpClient(
 
     private val okhttpClient = OkHttpClient.Builder().addInterceptor(loggerInterceptor).build()
 
-    private fun retrofit() = Retrofit.Builder()
+    fun retrofit() = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(JsonHelper().gson))
         .client(okhttpClient)
         .baseUrl(baseUrl)

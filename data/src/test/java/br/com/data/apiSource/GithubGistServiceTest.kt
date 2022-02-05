@@ -3,13 +3,11 @@ package br.com.data.apiSource
 import br.com.MockGithubGistService
 import br.com.DataTestRunner
 import br.com.data.apiSource.network.ErrorEntity
-import br.com.data.apiSource.network.HttpClient
 import br.com.data.apiSource.network.result
-import br.com.data.applicationModules
+import br.com.data.servicesModules
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest
@@ -19,18 +17,12 @@ import java.lang.AssertionError
 
 class GithubGistServiceTest : KoinTest {
 
-    private val httpClient : HttpClient by inject()
-    private lateinit var githubGistService : GithubGistService
+    private val githubGistService : GithubGistService by inject()
     private lateinit var mockWebServer : MockWebServer
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
-        modules( applicationModules(DataTestRunner.MOCK_BASE_URL) )
-    }
-
-    @Before
-    fun setup(){
-        githubGistService  = httpClient.gitHubGistService()
+        modules( servicesModules(DataTestRunner.MOCK_BASE_URL) )
     }
 
     @After
