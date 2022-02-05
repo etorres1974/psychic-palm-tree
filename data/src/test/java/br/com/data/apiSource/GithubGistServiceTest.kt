@@ -1,21 +1,17 @@
 package br.com.data.apiSource
 
-import br.com.BaseTest
-import br.com.MockGithubGistService
 import br.com.DataTestRunner
+import br.com.MockGithubGistService
 import br.com.MockWebServerTest
 import br.com.data.apiSource.network.ErrorEntity
 import br.com.data.apiSource.network.result
 import br.com.data.servicesModules
 import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.inject
-import java.lang.AssertionError
 
 class GithubGistServiceTest : MockWebServerTest() , KoinTest {
 

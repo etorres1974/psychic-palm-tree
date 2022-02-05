@@ -7,7 +7,7 @@ import okhttp3.mockwebserver.RecordedRequest
 import org.koin.test.KoinTest
 import java.lang.IllegalArgumentException
 
-class MockGithubGistService : KoinTest {
+class MockGithubGistService {
 
     fun successApi() = getApi(successDispatcher())
 
@@ -24,8 +24,8 @@ class MockGithubGistService : KoinTest {
 
     private fun successDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
-            return when(request.path){
-                "/gists" -> MockResponse().setResponseCode(200).setBody(fileReader("MultipleGists.json"))
+            return when{
+                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(200).setBody(fileReader("MultipleGists.json"))
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }
@@ -33,8 +33,8 @@ class MockGithubGistService : KoinTest {
 
     private fun errorDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
-            return when(request.path){
-                "/gists" -> MockResponse().setResponseCode(422).setBody(UNPROCESSABLE_ENTITY)
+            return when{
+                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(422).setBody(UNPROCESSABLE_ENTITY)
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }

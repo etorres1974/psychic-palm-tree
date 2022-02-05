@@ -8,5 +8,9 @@ import retrofit2.Response
 interface GithubGistService {
 
     @GET("/gists")
-    suspend fun getGists() : Response<List<GistDTO>>
+    suspend fun getGists(
+        @Query("per_page") perPage: Int = 10,
+        @Query("page") page: Int = 0
+    ) : Response<List<GistDTO>>
+
 }
