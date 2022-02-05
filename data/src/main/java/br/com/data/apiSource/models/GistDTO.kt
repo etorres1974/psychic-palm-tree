@@ -67,7 +67,7 @@ data class GistDTO(
 
     override fun getFilesDb(): List<File> = files.list.map {
         File(
-            owner_id = id,
+            owner_id = owner.id,
             filename = it.filename,
             language = it.language ?: "",
             raw_url = it.raw_url,

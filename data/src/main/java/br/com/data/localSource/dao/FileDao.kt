@@ -10,4 +10,7 @@ interface FileDao : BaseDao<File> {
     @Query("SELECT * FROM File")
     fun getAll(): List<File>
 
+    @Query("SELECT * FROM File where owner_id = :ownerId")
+    fun getByOwnerId(ownerId: Int): List<File>
+
 }

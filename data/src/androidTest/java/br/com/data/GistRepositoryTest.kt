@@ -24,7 +24,7 @@ class GistRepositoryTest  : InstrumentedTest() {
     }
 
     @Test
-    fun repositry_fetch_api_and_save_gists_in_db() = runBlocking {
+    fun repository_fetch_api_and_save_gists_in_db() = runBlocking {
         assertCleanInitialState()
 
         val gists = gistRepository.getGists()
@@ -33,12 +33,26 @@ class GistRepositoryTest  : InstrumentedTest() {
     }
 
     @Test
-    fun repositry_fetch_api_and_save_files_in_db() = runBlocking {
+    fun repository_fetch_api_and_save_files_in_db() = runBlocking {
         assertCleanInitialState()
 
         val files = gistRepository.getFiles()
         assert(files.isNotEmpty())
-        {"Repository files should not be empty : $files"}
+            {"Repository files should not be empty : $files"}
+    }
+
+    @Test
+    fun filter_files_by_owner_id() = runBlocking {
+        assertCleanInitialState()
+        val ownerId = gistRepository.getGists().first().owner_id
+
+        val files = gistRepository.getFilesByOwnerId(ownerId = ownerId)
+        assert(files.isNotEmpty())
+            {"Repository files should not be empty : $files"}
+
+        assert(files.all{ it.owner_id == ownerId})
+            {"Repository files should not be empty : $files"}
+
     }
 
     @Test

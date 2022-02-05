@@ -4,7 +4,7 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = ["owner_id", "filename"])
 data class File(
-    val owner_id: String,
+    val owner_id: Int,
     val filename: String,
     val language: String,
     val raw_url: String,

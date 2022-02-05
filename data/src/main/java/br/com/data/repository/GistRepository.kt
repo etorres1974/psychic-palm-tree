@@ -19,6 +19,7 @@ class GistRepository(
     fun getFavoriteGists() = gistDao.getFavorites()
 
     fun getFiles() = fileDao.getAll()
+    fun getFilesByOwnerId( ownerId : Int) = fileDao.getByOwnerId(ownerId)
 
     fun favoriteGist( gistId : String) = gistDao.favorite(gistId, true)
     fun unFavoriteGist( gistId : String) = gistDao.favorite(gistId, false)

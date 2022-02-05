@@ -15,7 +15,7 @@ class FileDaoTest : InstrumentedTest() {
     @Test
     fun insert_gist_on_dao() = runBlocking {
         assert(fileDao.getAll().isEmpty())
-        val file = File("1", "", "", "", 1, "")
+        val file = File(1, "", "", "", 1, "")
         fileDao.insert(file)
         val result = fileDao.getAll()
         assertEquals(file , result.first())
@@ -37,7 +37,7 @@ class FileDaoTest : InstrumentedTest() {
         assert(dbFiles == result)
             {"Was expecting $dbFiles but got: $result"}
 
-        assert(result.all{ it.owner_id == dbGist.id})
+        assert(result.all{ it.owner_id == dbGist.owner_id})
             {"All files should be mapped to the same owner"}
 
     }
