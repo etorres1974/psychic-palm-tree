@@ -1,7 +1,5 @@
 package br.com.data.paging
 
-import br.com.data.apiSource.models.GistDTO
-
 sealed class UiAction {
     data class Search(val query: String) : UiAction()
     data class Scroll(

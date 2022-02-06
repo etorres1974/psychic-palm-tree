@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface GithubGistService : Api {
 
-    @GET("/gists")
+    @GET("/gists/public")
     suspend fun getGists(
         @Query("per_page") perPage: Int = 30,
         @Query("page") page: Int = 1

@@ -4,10 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.paging.ExperimentalPagingApi
 import br.com.data.apiSource.network.utils.ErrorEntity
 import br.com.freedomgist.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
+@ExperimentalPagingApi
 class MainActivity : AppCompatActivity() {
 
     private val viewModel : MainViewModel by viewModel()
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setupListeners()
         setupRecyclerView()
-        authenticate()
+        //authenticate()
 
     }
 

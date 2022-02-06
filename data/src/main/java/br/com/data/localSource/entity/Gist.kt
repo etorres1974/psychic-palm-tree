@@ -10,10 +10,11 @@ data class Gist(
     val owner_id: Int,
     val login: String,
     val description: String,
+    val page : Int,
     val favorite : Boolean = false
 )
 
 
 interface GistModel{
-    fun toDbModel() : Gist
+    fun toDbModel(page : Int) : Gist
 }

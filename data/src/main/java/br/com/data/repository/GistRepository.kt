@@ -2,13 +2,17 @@ package br.com.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
-import br.com.data.apiSource.services.GithubGistService
 import br.com.data.apiSource.models.GistDTO
-import br.com.data.apiSource.network.utils.result
+import br.com.data.apiSource.network.utils.NetworkResult
+import br.com.data.apiSource.network.utils.handleResponse
+import br.com.data.apiSource.services.GithubGistService
 import br.com.data.localSource.GistDatabase
 import br.com.data.localSource.entity.Gist
 import br.com.data.paging.GistPages
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GistRepository(
     private val githubGistService: GithubGistService,
@@ -16,10 +20,11 @@ class GistRepository(
 ) {
 
     private val fileDao = gistDatabase.fileDao()
-    private val gistDao = gistDatabase.gistDao()
+    val gistDao = gistDatabase.gistDao()
 
+    @ExperimentalPagingApi
     fun getPagedGists(query : String) : LiveData<PagingData<Gist>> =
-        GistPages(githubGistService).getPagedSearchResults(query)
+        GistPages(this).getPagedSearchResults(query)
 
     fun getGists() = gistDao.getAll()
 
@@ -31,19 +36,22 @@ class GistRepository(
     fun favoriteGist( gistId : String) = gistDao.favorite(gistId, true)
     fun unFavoriteGist( gistId : String) = gistDao.favorite(gistId, false)
 
-    suspend fun queryGistAndSave(){
-        githubGistService.getGists().result(
-            success = { gists ->
-                gists.forEach{ saveRemoteGist(it ) }
-            },
-            error = { err ->
-                Log.e("GistRepository", "Query Gist and Save : $err")
+    suspend fun queryGistAndSave(page : Int){
+        try {
+            when (val response = githubGistService.getGists(page = page).handleResponse()) {
+                is NetworkResult.Success -> response.data.forEach { saveRemoteGist(it, page) }
+                is NetworkResult.Error -> Log.e(
+                    "GistRepository",
+                    "Query Gist and Save : ${response.errorEntity}"
+                )
             }
-        )
+        }catch (e : Exception){
+            throw e
+        }
     }
 
-    private fun saveRemoteGist(gist : GistDTO){
-        val gistDb = gist.toDbModel()
+    private suspend fun saveRemoteGist(gist : GistDTO, page : Int) = withContext(Dispatchers.IO){
+        val gistDb = gist.toDbModel(page)
         val files = gist.getFilesDb()
         gistDao.insert(gistDb)
         fileDao.insert(files)

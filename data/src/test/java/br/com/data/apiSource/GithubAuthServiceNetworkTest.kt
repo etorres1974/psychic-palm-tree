@@ -40,7 +40,8 @@ class GithubAuthServiceNetworkTest : KoinTest {
             deviceCode = deviceCode.device_code
         )
         val errorSample = fileReader("AuthorizationPending.json")
-        assertEquals(errorSample, result.errorBody().toString())
+        assertEquals(errorSample, result.raw().message)
+        //TODO Parse error response DTO
     }
 
 }

@@ -25,6 +25,7 @@ fun dataBaseModules() = module{
     single{ get<GistDatabase>().gistDao() }
     single{ get<GistDatabase>().fileDao() }
     single{ get<GistDatabase>().authDao() }
+    single{ get<GistDatabase>().remoteKeysDao() }
 }
 
 fun servicesModules(baseUrl : String, authUrl : String) = module{

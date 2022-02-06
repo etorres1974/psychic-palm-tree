@@ -57,12 +57,13 @@ data class GistDTO(
         val url: String
     )
 
-    override fun toDbModel() = Gist(
+    override fun toDbModel(page : Int) = Gist(
         id = id ?: "",
         owner_id = owner.id ?: 0,
         avatar_url = owner.avatar_url ?: "",
         login = owner.login ?: "",
-        description = description ?: ""
+        description = description ?: "",
+        page = page
    )
 
     override fun getFilesDb(): List<File> = files.list.map {

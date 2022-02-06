@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import br.com.data.apiSource.models.DeviceCode
 import br.com.data.apiSource.network.utils.ErrorEntity
@@ -15,13 +16,14 @@ import br.com.freedomgist.gist.GistViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 class MainViewModel(
     private val gistRepository: GistRepository,
     private val authRepository: AuthRepository
 ) : ViewModel(), GistViewModel {
 
-    val pagedGist : LiveData<PagingData<Gist>> = queryPagedGists()
 
+    val pagedGist : LiveData<PagingData<Gist>> = queryPagedGists()
 
     override fun gisPagestLivedata(): LiveData<PagingData<Gist>>  = pagedGist
 

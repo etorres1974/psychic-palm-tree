@@ -8,6 +8,7 @@
         tools:context=".MainActivity">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
             android:id="@+id/input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
