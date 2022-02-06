@@ -1,26 +1,25 @@
 package br.com.data.apiSource.network
 
-import br.com.data.apiSource.GithubGistService
+import br.com.data.apiSource.network.utils.*
+import br.com.data.apiSource.services.Api
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class HttpClient(
+class  HttpClient<T : Api>(
     private val baseUrl : String
 ) {
 
-    private val loggerInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
+    private val okhttpClient = OkHttpClient.Builder()
+        .addInterceptor(LOGGER_INTERCEPTOR)
+        .addInterceptor(DEFAULT_HEADER_INTERCEPTOR)
+        .build()
 
-    private val okhttpClient = OkHttpClient.Builder().addInterceptor(loggerInterceptor).build()
-
-    fun retrofit() = Retrofit.Builder()
+    fun retrofit(): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(JsonHelper().gson))
         .client(okhttpClient)
         .baseUrl(baseUrl)
         .build()
 
-    fun gitHubGistService(): GithubGistService = retrofit().create(GithubGistService::class.java)
+     inline fun <reified T> service(): T = retrofit().create(T::class.java)
 }

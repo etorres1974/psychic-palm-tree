@@ -1,8 +1,9 @@
-package br.com.data.apiSource.network
+package br.com.data.apiSource.network.utils
 
 import br.com.data.apiSource.models.GistDTO
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
+import com.google.gson.Gson
 
 class JsonHelper {
 
@@ -13,7 +14,7 @@ class JsonHelper {
         GistDTO.Files(gistFiles)
     }
 
-    val gson = GsonBuilder()
+    val gson: Gson = GsonBuilder()
         .registerTypeAdapter(GistDTO.Files::class.java, gistFileDeserializer)
         .create()
 }

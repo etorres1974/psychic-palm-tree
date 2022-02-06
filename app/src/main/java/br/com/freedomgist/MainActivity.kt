@@ -16,10 +16,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setupRecyclerView()
+        authenticate()
+
     }
 
     private fun setupRecyclerView() = with(binding.gistRv){
         setPagedViewModel(this@MainActivity, viewModel)
+    }
+
+    private fun authenticate(){
+        viewModel.askPermissionCode()
     }
 
 }

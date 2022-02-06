@@ -25,7 +25,7 @@ class MockGithubGistService {
     private fun successDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when{
-                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(200).setBody(fileReader("MultipleGists.json"))
+                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(200).setBody(fileReader(MULTIPLE_GIST))
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }
@@ -34,13 +34,14 @@ class MockGithubGistService {
     private fun errorDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when{
-                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(422).setBody(UNPROCESSABLE_ENTITY)
+                request.path?.startsWith("/gists") == true -> MockResponse().setResponseCode(422).setBody(fileReader(UNPROCESSABLE_ENTITY))
                 else -> throw IllegalArgumentException("Route ${request.path} is not implemented in mockwebserver")
             }
         }
     }
 
     companion object{
-        private const val UNPROCESSABLE_ENTITY = "Status: 422 Unprocessable Entity"
+        private const val MULTIPLE_GIST = "MultipleGists.json"
+        private const val UNPROCESSABLE_ENTITY = "UnprocessableEntityResponse.json"
     }
 }

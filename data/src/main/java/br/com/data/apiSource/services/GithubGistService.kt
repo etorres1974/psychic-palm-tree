@@ -1,11 +1,11 @@
-package br.com.data.apiSource
+package br.com.data.apiSource.services
 
 import br.com.data.apiSource.models.GistDTO
-import retrofit2.http.*
 import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-
-interface GithubGistService {
+interface GithubGistService : Api {
 
     @GET("/gists")
     suspend fun getGists(

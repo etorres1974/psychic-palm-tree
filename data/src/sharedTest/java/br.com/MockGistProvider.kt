@@ -1,6 +1,6 @@
 package br.com
 
-import br.com.data.apiSource.network.JsonHelper
+import br.com.data.apiSource.network.utils.JsonHelper
 import br.com.data.apiSource.models.GistDTO
 
 object MockGistProvider {

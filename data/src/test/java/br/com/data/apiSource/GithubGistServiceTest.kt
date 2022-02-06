@@ -3,8 +3,9 @@ package br.com.data.apiSource
 import br.com.DataTestRunner
 import br.com.MockGithubGistService
 import br.com.MockWebServerTest
-import br.com.data.apiSource.network.ErrorEntity
-import br.com.data.apiSource.network.result
+import br.com.data.apiSource.network.utils.ErrorEntity
+import br.com.data.apiSource.network.utils.result
+import br.com.data.apiSource.services.GithubGistService
 import br.com.data.servicesModules
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -19,7 +20,7 @@ class GithubGistServiceTest : MockWebServerTest() , KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
-        modules( servicesModules(DataTestRunner.MOCK_BASE_URL) )
+        modules( servicesModules(DataTestRunner.MOCK_BASE_URL, DataTestRunner.MOCK_BASE_URL) )
     }
 
     @Test

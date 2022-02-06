@@ -1,7 +1,8 @@
 package br.com.data.apiSource
 
 import br.com.data.DataApplication
-import br.com.data.apiSource.network.result
+import br.com.data.apiSource.network.utils.result
+import br.com.data.apiSource.services.GithubGistService
 import br.com.data.servicesModules
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -17,7 +18,7 @@ class GithubGistServiceNetworkTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
-        modules( servicesModules(DataApplication.GITHUB_GIST) )
+        modules( servicesModules(DataApplication.GITHUB_GIST, "") )
     }
 
     @Test
@@ -35,5 +36,4 @@ class GithubGistServiceNetworkTest : KoinTest {
             error =  { AssertionError(it) }
         )
     }
-
 }

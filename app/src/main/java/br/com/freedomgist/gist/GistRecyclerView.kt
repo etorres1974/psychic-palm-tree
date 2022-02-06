@@ -2,14 +2,22 @@ package br.com.freedomgist.gist
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadStateAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.data.localSource.entity.Gist
 import br.com.freedomgist.databinding.GistRecyclerviewBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -17,6 +25,15 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
 
     init{
         setLayout()
+    }
+
+    suspend fun loadStateListener(){
+        val pagingAdapter = binding.recyclerView.adapter as GistAdapter
+        pagingAdapter.loadStateFlow.collectLatest {
+//            progressBar.isVisible = loadStates.refresh is LoadState.Loading
+//            retry.isVisible = loadState.refresh !is LoadState.Loading
+//            errorMsg.isVisible = loadState.refresh is LoadState.Error
+        }
     }
 
     fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel) =

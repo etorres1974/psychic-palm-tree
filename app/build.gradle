@@ -15,6 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "br.com.data.MockTestRunner"
+        multiDexEnabled = true
     }
 
     buildFeatures {
@@ -64,4 +65,7 @@ dependencies {
     def paging_version = "3.1.0"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+
+    def multidex_version = "2.0.1"
+    implementation("androidx.multidex:multidex:$multidex_version")
 }

@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import br.com.data.apiSource.GithubGistService
+import br.com.data.apiSource.services.GithubGistService
 import br.com.data.localSource.entity.Gist
 import br.com.data.paging.GistPagingSource.Companion.PAGE_SIZE
 
@@ -13,8 +13,8 @@ class GistPages(
     private val service: GithubGistService
 ) {
 
-    fun getPagedSearchResults(query: String): LiveData<PagingData<Gist>> {
-        return Pager(
+    fun getPagedSearchResults(query: String): LiveData<PagingData<Gist>>  =
+        Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
@@ -23,5 +23,5 @@ class GistPages(
                 GistPagingSource(service, query)
             }
         ).liveData
-    }
+
 }

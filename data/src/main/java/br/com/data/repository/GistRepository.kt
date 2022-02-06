@@ -2,12 +2,10 @@ package br.com.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import br.com.data.apiSource.GithubGistService
+import br.com.data.apiSource.services.GithubGistService
 import br.com.data.apiSource.models.GistDTO
-import br.com.data.apiSource.network.result
+import br.com.data.apiSource.network.utils.result
 import br.com.data.localSource.GistDatabase
 import br.com.data.localSource.entity.Gist
 import br.com.data.paging.GistPages
@@ -20,8 +18,8 @@ class GistRepository(
     private val fileDao = gistDatabase.fileDao()
     private val gistDao = gistDatabase.gistDao()
 
-    fun getPagedGists(query : String) = GistPages(githubGistService).getPagedSearchResults(query)
-
+    fun getPagedGists(query : String) : LiveData<PagingData<Gist>> =
+        GistPages(githubGistService).getPagedSearchResults(query)
 
     fun getGists() = gistDao.getAll()
 
