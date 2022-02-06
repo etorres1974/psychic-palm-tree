@@ -11,7 +11,6 @@ interface GistDao : BaseDao<Gist> {
     @Query("SELECT * FROM Gist")
     fun getAll(): List<Gist>
 
-
     @Query("SELECT * FROM Gist where favorite is 1")
     fun getFavorites(): List<Gist>
 

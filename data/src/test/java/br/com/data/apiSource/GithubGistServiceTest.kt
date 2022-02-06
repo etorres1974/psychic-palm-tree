@@ -4,15 +4,20 @@ import br.com.DataTestRunner
 import br.com.MockGithubGistService
 import br.com.MockWebServerTest
 import br.com.data.apiSource.network.utils.ErrorEntity
+import br.com.data.apiSource.network.utils.JsonHelper
 import br.com.data.apiSource.network.utils.result
 import br.com.data.apiSource.services.GithubGistService
 import br.com.data.servicesModules
+import br.com.fileReader
 import kotlinx.coroutines.runBlocking
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.inject
+import kotlin.test.assertEquals
 
 class GithubGistServiceTest : MockWebServerTest() , KoinTest {
 
@@ -82,5 +87,19 @@ class GithubGistServiceTest : MockWebServerTest() , KoinTest {
                     {"Was expected to return Validation Error but got : $error"}
             }
         )
+    }
+
+    @Test
+    fun test_unique_ids() = runBlocking{
+        val errorSample = fileReader("Large.json")
+        mockWebServer = MockWebServer().apply {
+            start(8080)
+        }
+        mockWebServer?.enqueue(MockResponse().setResponseCode(200).setBody(errorSample))
+        val response = githubGistService.getGists()
+        val gists = response.body()!!
+        val ids = gists.map { it.id }
+        val keys = gists.map { it.id }.distinct()
+        assertEquals(ids, keys)
     }
 }

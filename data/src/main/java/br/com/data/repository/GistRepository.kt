@@ -6,6 +6,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import br.com.data.apiSource.models.GistDTO
 import br.com.data.apiSource.network.utils.NetworkResult
+import br.com.data.apiSource.network.utils.findPageNumbers
 import br.com.data.apiSource.network.utils.handleResponse
 import br.com.data.apiSource.services.GithubGistService
 import br.com.data.localSource.GistDatabase
@@ -38,13 +39,16 @@ class GistRepository(
 
     suspend fun queryGistAndSave(page : Int){
         try {
-            when (val response = githubGistService.getGists(page = page).handleResponse()) {
+            val res = githubGistService.getGists(page = page)
+            Log.d("ABACATE", "Pages : ${res.headers().findPageNumbers()}")
+            when (val response = res.handleResponse()) {
                 is NetworkResult.Success -> response.data.forEach { saveRemoteGist(it, page) }
                 is NetworkResult.Error -> Log.e(
                     "GistRepository",
                     "Query Gist and Save : ${response.errorEntity}"
                 )
             }
+
         }catch (e : Exception){
             throw e
         }

@@ -2,7 +2,7 @@ package br.com.data.localSource.entity
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["owner_id", "filename"])
+@Entity(primaryKeys = ["raw_url"])
 data class File(
     val owner_id: Int,
     val filename: String,
