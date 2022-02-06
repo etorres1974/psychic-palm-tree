@@ -6,14 +6,14 @@ import br.com.data.localSource.entity.Gist
 import br.com.data.localSource.entity.GistModel
 
 data class GistDTO(
-    val id: String,
+    val id: String?,
     val owner: OwnerDTO,
     val files: Files,
     val comments: Int,
     val comments_url: String,
     val commits_url: String,
     val created_at: String,
-    val description: String,
+    val description: String?,
     val forks_url: String,
     val git_pull_url: String,
     val git_push_url: String,
@@ -37,15 +37,15 @@ data class GistDTO(
 
 
     data class OwnerDTO(
-        val avatar_url: String,
+        val avatar_url: String?,
         val events_url: String,
         val followers_url: String,
         val following_url: String,
         val gists_url: String,
         val gravatar_id: String,
         val html_url: String,
-        val id: Int,
-        val login: String,
+        val id: Int?,
+        val login: String?,
         val node_id: String,
         val organizations_url: String,
         val received_events_url: String,
@@ -58,16 +58,16 @@ data class GistDTO(
     )
 
     override fun toDbModel() = Gist(
-        id = id,
-        owner_id = owner.id,
-        avatar_url = owner.avatar_url,
-        login = owner.login,
-        description = description
+        id = id ?: "",
+        owner_id = owner.id ?: 0,
+        avatar_url = owner.avatar_url ?: "",
+        login = owner.login ?: "",
+        description = description ?: ""
    )
 
     override fun getFilesDb(): List<File> = files.list.map {
         File(
-            owner_id = owner.id,
+            owner_id = owner.id ?:  0,
             filename = it.filename,
             language = it.language ?: "",
             raw_url = it.raw_url,
