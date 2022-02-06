@@ -1,13 +1,12 @@
 package br.com.data.repository
 
-import android.util.Log
 import br.com.data.apiSource.models.AccessToken
 import br.com.data.apiSource.models.DeviceCode
 import br.com.data.apiSource.network.utils.*
 import br.com.data.apiSource.services.Github
 import br.com.data.localSource.dao.AuthDao
 import br.com.data.localSource.entity.Auth
-import java.lang.Exception
+import java.net.UnknownHostException
 
 class AuthRepository(
     private val github: Github,
@@ -17,8 +16,10 @@ class AuthRepository(
     suspend fun fetchUserCode() : NetworkResult<DeviceCode?> = try{
         github.getDeviceCode().handleResponse()
     }catch (e : Exception){
-        Log.d("ABACATE ", e.toString())
-        NetworkResult.Error(ErrorEntity.Unknown)
+        when (e) {
+            is UnknownHostException -> NetworkResult.Error(ErrorEntity.NetworkError)
+            else -> NetworkResult.Error(ErrorEntity.Unknown)
+        }
     }
 
     suspend fun fetchUserToken(deviceCode: DeviceCode) {

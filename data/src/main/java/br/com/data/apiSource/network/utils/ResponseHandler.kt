@@ -12,6 +12,8 @@ sealed class ErrorEntity {
 
     object NetworkError : ErrorEntity()
 
+    object Forbidden : ErrorEntity()
+
     object Unknown : ErrorEntity()
 }
 
@@ -26,6 +28,7 @@ fun <T> Response<T>.handleResponse( ): NetworkResult<T> = try {
     body()?.let {
         NetworkResult.Success(it)
     } ?: when {
+        this.code() == 403 -> NetworkResult.Error(ErrorEntity.Forbidden)
         this.code() == 422 -> NetworkResult.Error(ErrorEntity.ValidationError)
         else -> NetworkResult.Error(ErrorEntity.Unknown)
     }
