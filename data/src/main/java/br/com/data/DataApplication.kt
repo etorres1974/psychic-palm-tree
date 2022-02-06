@@ -17,12 +17,16 @@ open class DataApplication : Application() {
     open fun startKoin() = startKoin{
         androidContext(this@DataApplication)
         modules(
-            servicesModules(getBaseUrl()),
-            roomInstance(),
-            dataBaseModules(),
-            repositories()
+            allModules()
         )
     }
+
+    open fun allModules() = listOf(
+        servicesModules(getBaseUrl()),
+        roomInstance(),
+        dataBaseModules(),
+        repositories()
+    )
 
     override fun onTerminate() {
         stopKoin()
