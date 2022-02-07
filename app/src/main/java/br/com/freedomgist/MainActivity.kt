@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
 import br.com.data.apiSource.network.utils.ErrorEntity
 import br.com.freedomgist.databinding.ActivityMainBinding
+import br.com.freedomgist.dialog.ErrorDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -17,17 +18,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    val erroDialog = ErrorDialog()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setupListeners()
         setupRecyclerView()
-        //authenticate()
 
     }
 
     private fun setupRecyclerView() = with(binding.gistRv){
-        setPagedViewModel(this@MainActivity, viewModel)
+        setPagedViewModel(this@MainActivity, viewModel){ err ->
+            showError(err)
+        }
     }
 
     private fun setupListeners() = with(viewModel){
@@ -36,9 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(error : ErrorEntity)=
-        ErrorDialog(error).show(supportFragmentManager, "tag")
-
+    private fun showError(error : ErrorEntity)  {
+        erroDialog.addError(supportFragmentManager, error)
+    }
 
     private fun authenticate(){
         binding.emptyList.isVisible
@@ -46,3 +50,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+
+

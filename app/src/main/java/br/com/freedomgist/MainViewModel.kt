@@ -1,5 +1,6 @@
 package br.com.freedomgist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,7 +34,7 @@ class MainViewModel(
         get() = TODO("Not yet implemented")
 
     override fun onClickGist(id: String) {
-        TODO("Not yet implemented")
+        Log.d("ABACATE", "Clicked  Gist : ${id}")
     }
 
     val userCodeLiveData = MutableLiveData<DeviceCode>()

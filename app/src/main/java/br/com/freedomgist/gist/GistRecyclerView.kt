@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadStateAdapter
-import androidx.paging.PagingDataAdapter
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.data.localSource.entity.Gist
+import br.com.data.apiSource.network.utils.ErrorEntity
 import br.com.freedomgist.databinding.GistRecyclerviewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,16 +26,25 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
         setLayout()
     }
 
-    suspend fun loadStateListener(){
+    fun loadStateListener(lifecycleScope: LifecycleCoroutineScope,  onLoadStateChange : (ErrorEntity) -> Unit) {
         val pagingAdapter = binding.recyclerView.adapter as GistAdapter
-        pagingAdapter.loadStateFlow.collectLatest {
-//            progressBar.isVisible = loadStates.refresh is LoadState.Loading
-//            retry.isVisible = loadState.refresh !is LoadState.Loading
-//            errorMsg.isVisible = loadState.refresh is LoadState.Error
+        lifecycleScope.launch {
+            pagingAdapter.loadStateFlow.collectLatest { loadState ->
+
+                val hasError = listOf(
+                    loadState.append, loadState.prepend, loadState.refresh,
+                    loadState.mediator?.append, loadState?.mediator?.prepend, loadState.mediator?.refresh,
+                    loadState.source.append, loadState.source.prepend, loadState.source.refresh,
+
+                ).filterIsInstance<LoadState.Error>()
+                if(hasError.isNotEmpty())
+                    Log.d("ABACATE", "HAS ERROR : ${hasError}")
+                onLoadStateChange(ErrorEntity.Forbidden)
+            }
         }
     }
 
-    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel) =
+    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel, onLoadStateChange : (ErrorEntity) -> Unit) =
         with(binding.recyclerView) {
             adapter = GistAdapter(viewModel::onClickGist)
             viewModel.gisPagestLivedata().observe(lifecycleOwner) { pagingData ->
@@ -45,6 +53,7 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
                     pagingData
                 )
                 observeEmpty()
+                loadStateListener(lifecycleOwner.lifecycleScope, onLoadStateChange)
             }
         }
 
