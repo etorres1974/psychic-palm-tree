@@ -1,4 +1,4 @@
-package br.com.freedomgist.gist
+package br.com.freedomgist.gist.list
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,10 +11,9 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.data.apiSource.network.utils.ErrorEntity
 import br.com.freedomgist.databinding.GistRecyclerviewBinding
+import br.com.data.localSource.entity.GistFilter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -26,7 +25,6 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
         val pagingAdapter = binding.recyclerView.adapter as GistAdapter
         lifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
-
                 val hasError = listOf(
                     loadState.append, loadState.prepend, loadState.refresh,
                     loadState.mediator?.append, loadState?.mediator?.prepend, loadState.mediator?.refresh,
@@ -36,19 +34,19 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
                 if(hasError.isNotEmpty())
                     Log.d("ABACATE", "HAS ERROR : ${hasError}")
                 onLoadStateChange(ErrorEntity.Forbidden)
+                observeEmpty()
             }
         }
     }
 
-    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel, onLoadStateChange : (ErrorEntity) -> Unit) =
+    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel, gistFilter : GistFilter, onLoadStateChange : (ErrorEntity) -> Unit,) =
         with(binding.recyclerView) {
             adapter = GistAdapter(viewModel::onClickGist, viewModel::onFavoriteGist)
-            viewModel.gisPagestLivedata().observe(lifecycleOwner) { pagingData ->
+            viewModel.gisPagestLivedata(gistFilter).observe(lifecycleOwner) { pagingData ->
                 (this.adapter as GistAdapter).submitData(
                     lifecycleOwner.lifecycle,
                     pagingData
                 )
-                observeEmpty()
                 loadStateListener(lifecycleOwner.lifecycleScope, onLoadStateChange)
             }
         }

@@ -1,4 +1,4 @@
-package br.com.freedomgist.gist
+package br.com.freedomgist.gist.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

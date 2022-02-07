@@ -1,10 +1,7 @@
 package br.com.freedomgist
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import br.com.data.apiSource.models.DeviceCode
@@ -13,21 +10,18 @@ import br.com.data.apiSource.network.utils.handleResult
 import br.com.data.localSource.entity.Gist
 import br.com.data.repository.AuthRepository
 import br.com.data.repository.GistRepository
-import br.com.freedomgist.gist.GistViewModel
+import br.com.data.localSource.entity.GistFilter
+import br.com.freedomgist.gist.list.GistViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class MainViewModel(
     private val gistRepository: GistRepository,
     private val authRepository: AuthRepository
 ) : ViewModel(), GistViewModel {
 
-    private val pagedGist : LiveData<PagingData<Gist>>  by lazy { queryPagedGists() }
-
-    override fun gisPagestLivedata(): LiveData<PagingData<Gist>>  = pagedGist
-
-    private fun queryPagedGists(query : String = "") = gistRepository.getPagedGists(query)
+    override fun gisPagestLivedata(gistFilter: GistFilter): LiveData<PagingData<Gist>> = gistRepository.getPagedGists(gistFilter)
 
     override val openGist: LiveData<String>
         get() = TODO("Not yet implemented")

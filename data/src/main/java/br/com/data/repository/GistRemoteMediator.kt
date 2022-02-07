@@ -7,14 +7,20 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import br.com.data.apiSource.network.utils.findPageNumbers
 import br.com.data.localSource.entity.Gist
+import br.com.data.localSource.entity.GistFilter
 import retrofit2.HttpException
 import java.io.IOException
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class GistRemoteMediator(
     private val gistRepository: GistRepository,
-    private val query: String = ""
+    private val filter : GistFilter
 ) : RemoteMediator<Int, Gist>() {
+
+
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Gist>): MediatorResult {
         val page = when (loadType) {
@@ -30,9 +36,9 @@ class GistRemoteMediator(
                 nextKey
             }
         }
-        val apiQuery = query //TODO use query for user
+        Log.d("Abacate", "${loadType} - Page :${ page}")
         return try {
-            val res = gistRepository.queryGistAndSave(page = page, perPage = PAGE_SIZE)
+            val res = gistRepository.queryGistAndSave(filter = filter, page = page, perPage = PAGE_SIZE)
             val lastPage = res.headers().findPageNumbers()?.last() ?: -1
             val endOfPaginationReached = page >= lastPage
             if (res.isSuccessful)
@@ -50,7 +56,7 @@ class GistRemoteMediator(
 
     companion object {
         const val GITHUB_STARTING_PAGE_INDEX = 1
-        const val PAGE_SIZE = 30
+        const val PAGE_SIZE = 15
     }
 
 }

@@ -35,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {
@@ -72,4 +73,8 @@ dependencies {
     //Images
     def picasso_version = "2.8"
     implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    //ViewPager
+    def view_pager_version = "1.0.0"
+    implementation("androidx.viewpager2:viewpager2:$view_pager_version")
 }

@@ -1,22 +1,13 @@
 package br.com.data.localSource.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Update
+import androidx.room.*
 
 interface BaseDao<T> {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(obj: T)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg obj: T)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(list: List<T>)
-
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(obj: T)
 
     @Delete

@@ -2,27 +2,29 @@ package br.com.data.paging
 
 import androidx.lifecycle.LiveData
 import androidx.paging.*
-import br.com.data.apiSource.services.GithubGistService
-import br.com.data.localSource.dao.GistDao
 import br.com.data.localSource.entity.Gist
+import br.com.data.localSource.entity.GistFilter
 import br.com.data.repository.GistRemoteMediator
 import br.com.data.repository.GistRemoteMediator.Companion.PAGE_SIZE
 import br.com.data.repository.GistRepository
 
+@OptIn(ExperimentalPagingApi::class)
 class GistPages(
     private val gistRepository: GistRepository
 ) {
 
-    @ExperimentalPagingApi
-    fun getPagedSearchResults(query: String): LiveData<PagingData<Gist>>  =
+   fun getPagedSearchResults(gistFilter: GistFilter): LiveData<PagingData<Gist>>  =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = true
             ),
-            remoteMediator = GistRemoteMediator(gistRepository = gistRepository, query = query),
+            remoteMediator = GistRemoteMediator(gistRepository = gistRepository, filter = gistFilter),
             pagingSourceFactory = {
-                gistRepository.gistDao.pagingSource()
+                 when(gistFilter){
+                    GistFilter.All -> gistRepository.gistDao.pagingSource()
+                    GistFilter.Favorites -> gistRepository.gistDao.pagingSourceFavorites()
+                }
             }
         ).liveData
 

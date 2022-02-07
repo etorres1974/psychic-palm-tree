@@ -1,4 +1,4 @@
-package br.com.freedomgist.gist
+package br.com.freedomgist.gist.list
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -25,7 +25,9 @@ class GistAdapter(
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Gist, newItem: Gist): Boolean =
-                oldItem.updated_at == newItem.updated_at
+                oldItem.updated_at == newItem.updated_at &&
+                oldItem.favorite == newItem.favorite
+
         }
     }
 }

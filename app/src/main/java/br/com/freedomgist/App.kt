@@ -4,7 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import br.com.data.DataApplication
 import org.koin.core.module.Module
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class App : DataApplication() {
 
     override fun allModules(): List<Module> =

@@ -1,11 +1,12 @@
 package br.com.data.localSource.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(indices = [Index(value = ["id"], unique = true)])
 data class Gist(
-    @PrimaryKey(autoGenerate = true) val dbId : Int = 0,
+    @PrimaryKey (autoGenerate = true) val dbId : Int = 0,
     val id : String,
     val avatar_url: String,
     val owner_id: Int,
@@ -17,7 +18,7 @@ data class Gist(
     val page : Int,
     val updated_at: String,
     val created_at: String,
-    val favorite : Boolean = false,
+    val favorite : Boolean = false
     )
 
 

@@ -28,30 +28,5 @@
                 tools:text="Android"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <br.com.freedomgist.gist.GistRecyclerView
-            android:id="@+id/gist_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="12dp"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout"
-            />
-
-        <TextView android:id="@+id/emptyList"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/no_results"
-            android:textSize="24dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

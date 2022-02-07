@@ -64,8 +64,8 @@
                     android:layout_height = "wrap_content"
                     android:text="@{gist.description}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:maxLines="5"
-                    android:lines="5"
+                    android:maxLines="3"
+                    android:lines="3"
                     tools:text="@string/lorem" />
 
 
@@ -80,7 +80,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 tools:text="6 files"
                 android:textAlignment="center"
-                app:drawableStartCompat="@drawable/ic_baseline_text_snippet_24" />
+                android:drawableStart="@drawable/ic_baseline_text_snippet_24" />
 
             <TextView
                 android:id="@+id/tv_file_Type"
@@ -91,7 +91,7 @@
                 android:layout_height = "wrap_content"
                 android:text="@{gist.firstFileType}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:drawableStartCompat="@drawable/ic_baseline_code_24"
+                android:drawableStart="@drawable/ic_baseline_code_24"
                 tools:text="text/markdown" />
 
             <ImageView
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:padding="12dp"
+                android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:src="@drawable/ic_baseline_star_24" />

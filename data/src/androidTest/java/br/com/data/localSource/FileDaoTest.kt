@@ -25,13 +25,13 @@ class FileDaoTest : InstrumentedTest() {
     @Test
     fun convert_api_gist_into_db_gist_model() = runBlocking {
         val gist = MockGistProvider.getSingle()
-        val dbGist = gist.toDbModel()
+        val dbGist = gist.toDbModel(1)
         val dbFiles = gist.getFilesDb()
 
         assert(fileDao.getAll().isEmpty())
             {"GistDao should start empty"}
 
-        fileDao.insert(dbFiles)
+        dbFiles.forEach {fileDao.insert(it) }
 
         val result = fileDao.getAll()
         assert(dbFiles == result)

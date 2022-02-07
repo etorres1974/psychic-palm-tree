@@ -9,11 +9,13 @@ import br.com.data.apiSource.network.utils.handleResponse
 import br.com.data.apiSource.services.GithubGistService
 import br.com.data.localSource.GistDatabase
 import br.com.data.localSource.entity.Gist
+import br.com.data.localSource.entity.GistFilter
 import br.com.data.paging.GistPages
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
+@OptIn(ExperimentalPagingApi::class)
 class GistRepository(
     private val githubGistService: GithubGistService,
     gistDatabase: GistDatabase
@@ -22,9 +24,8 @@ class GistRepository(
     private val fileDao = gistDatabase.fileDao()
     val gistDao = gistDatabase.gistDao()
 
-    @ExperimentalPagingApi
-    fun getPagedGists(query : String) : LiveData<PagingData<Gist>> =
-        GistPages(this).getPagedSearchResults(query)
+    fun getPagedGists(gistFilter: GistFilter) : LiveData<PagingData<Gist>> =
+        GistPages(this).getPagedSearchResults(gistFilter)
 
     fun getGists() = gistDao.getAll()
 
@@ -36,7 +37,7 @@ class GistRepository(
     suspend fun favoriteGist(favorite : Boolean ,  gistId : String) = gistDao.favorite(gistId, !favorite)
 
 
-    suspend fun queryGistAndSave(page : Int, perPage : Int): Response<List<GistDTO>> {
+    suspend fun queryGistAndSave(page: Int, perPage: Int, filter: GistFilter): Response<List<GistDTO>> {
         try {
             val res = githubGistService.getGists(page = page, perPage = perPage)
             val response = res.handleResponse()
@@ -52,6 +53,8 @@ class GistRepository(
         val gistDb = gist.toDbModel(page)
         val files = gist.getFilesDb()
         gistDao.insert(gistDb)
-        fileDao.insert(files)
+        files.forEach {  file ->
+            fileDao.insert(file)
+        }
     }
 }

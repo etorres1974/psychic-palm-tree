@@ -68,7 +68,7 @@ data class GistDTO(
         description = description ?: "",
         page = page,
         updated_at = updated_at,
-        created_at =  created_at,
+        created_at =  created_at
    )
 
     override fun getFilesDb(): List<File> = files.list.map {
