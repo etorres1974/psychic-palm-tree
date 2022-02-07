@@ -7,5 +7,6 @@ import br.com.data.localSource.entity.Gist
 interface GistViewModel {
     fun gisPagestLivedata() : LiveData<PagingData<Gist>>
     val openGist : LiveData<String>
-    fun onClickGist(id : String)
+    fun onClickGist(id : String) : Unit
+    fun onFavoriteGist(favorite : Boolean, id : String) : Unit
 }

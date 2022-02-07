@@ -9,6 +9,9 @@ data class Gist(
     val avatar_url: String,
     val owner_id: Int,
     val login: String,
+    val fileCount : Int,
+    val firstFileName : String?,
+    val firstFileType : String?,
     val description: String,
     val page : Int,
     val favorite : Boolean = false

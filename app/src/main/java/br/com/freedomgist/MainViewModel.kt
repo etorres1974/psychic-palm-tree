@@ -34,7 +34,14 @@ class MainViewModel(
         get() = TODO("Not yet implemented")
 
     override fun onClickGist(id: String) {
+        //TODO - Open Files
         Log.d("ABACATE", "Clicked  Gist : ${id}")
+    }
+
+    override fun onFavoriteGist(favorite : Boolean, id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            gistRepository.favoriteGist(favorite, id)
+        }
     }
 
     val userCodeLiveData = MutableLiveData<DeviceCode>()

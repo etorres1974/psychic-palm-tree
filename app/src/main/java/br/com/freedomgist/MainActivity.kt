@@ -30,13 +30,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() = with(binding.gistRv){
         setPagedViewModel(this@MainActivity, viewModel){ err ->
-            showError(err)
+            //showError(err)
         }
     }
 
     private fun setupListeners() = with(viewModel){
         errorEntityLiveData.observe(this@MainActivity){
-            showError(it)
+            //showError(it)
         }
     }
 

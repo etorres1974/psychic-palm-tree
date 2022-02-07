@@ -33,8 +33,8 @@ class GistRepository(
     fun getFiles() = fileDao.getAll()
     fun getFilesByOwnerId( ownerId : Int) = fileDao.getByOwnerId(ownerId)
 
-    fun favoriteGist( gistId : String) = gistDao.favorite(gistId, true)
-    fun unFavoriteGist( gistId : String) = gistDao.favorite(gistId, false)
+    suspend fun favoriteGist(favorite : Boolean ,  gistId : String) = gistDao.favorite(gistId, !favorite)
+
 
     suspend fun queryGistAndSave(page : Int): Response<List<GistDTO>> {
         try {

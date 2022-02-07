@@ -62,6 +62,9 @@ data class GistDTO(
         owner_id = owner.id ?: 0,
         avatar_url = owner.avatar_url ?: "",
         login = owner.login ?: "",
+        fileCount = files.list.count(),
+        firstFileName = files.list.firstOrNull()?.filename,
+        firstFileType =  files.list.firstOrNull()?.type,
         description = description ?: "",
         page = page
    )
