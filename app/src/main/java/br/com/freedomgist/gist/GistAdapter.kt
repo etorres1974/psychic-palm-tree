@@ -16,9 +16,7 @@ class GistAdapter(
 
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         val repoItem = getItem(position)
-        if (repoItem != null) {
-            holder.bind(repoItem, onClickGist, onFavorite)
-        }
+        holder.bind(repoItem, onClickGist, onFavorite)
     }
 
     companion object {
@@ -27,7 +25,7 @@ class GistAdapter(
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Gist, newItem: Gist): Boolean =
-                oldItem == newItem
+                oldItem.updated_at == newItem.updated_at
         }
     }
 }

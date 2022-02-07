@@ -23,8 +23,7 @@ class MainViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel(), GistViewModel {
 
-
-    val pagedGist : LiveData<PagingData<Gist>> = queryPagedGists()
+    private val pagedGist : LiveData<PagingData<Gist>>  by lazy { queryPagedGists() }
 
     override fun gisPagestLivedata(): LiveData<PagingData<Gist>>  = pagedGist
 

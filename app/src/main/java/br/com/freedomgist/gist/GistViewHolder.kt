@@ -13,21 +13,21 @@ class GistViewHolder (
     private val binding : ItemGistBinding
     ): RecyclerView.ViewHolder(binding.root){
 
-    fun bind(gist: Gist, onClickGist: (String) -> Unit, onFavorite : (Boolean, String) -> Unit ) = with(binding){
-        binding.gist = gist
-        root.setOnClickListener { onClickGist(gist.id) }
-        ivUser.loadImageUrl(gist.avatar_url)
+    fun bind(gist: Gist?, onClickGist: (String) -> Unit, onFavorite : (Boolean, String) -> Unit ) = with(binding){
+        gist?.let {
+            binding.gist = gist
+            root.setOnClickListener { onClickGist(gist.id) }
+            ivUser.loadImageUrl(gist.avatar_url)
 
-        val starDrawable = when {
-            gist.favorite -> R.drawable.ic_baseline_star_24
-            else -> R.drawable.ic_baseline_star_outline_24
+            val starDrawable = when {
+                gist.favorite -> R.drawable.ic_baseline_star_24
+                else -> R.drawable.ic_baseline_star_outline_24
+            }
+
+            ivStar.setImageDrawable(AppCompatResources.getDrawable(root.context, starDrawable))
+            ivStar.setOnClickListener { onFavorite(gist.favorite, gist.id) }
         }
-
-        ivStar.setImageDrawable(AppCompatResources.getDrawable(root.context, starDrawable))
-        ivStar.setOnClickListener { onFavorite(gist.favorite, gist.id) }
     }
-
-
 
     companion object {
         fun inflate(parent: ViewGroup) = GistViewHolder(

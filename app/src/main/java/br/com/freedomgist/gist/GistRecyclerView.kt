@@ -22,11 +22,7 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
 
     private val binding = GistRecyclerviewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    init{
-        setLayout()
-    }
-
-    fun loadStateListener(lifecycleScope: LifecycleCoroutineScope,  onLoadStateChange : (ErrorEntity) -> Unit) {
+    private fun loadStateListener(lifecycleScope: LifecycleCoroutineScope, onLoadStateChange : (ErrorEntity) -> Unit) {
         val pagingAdapter = binding.recyclerView.adapter as GistAdapter
         lifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
@@ -63,9 +59,4 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
         emptyList.isVisible = isEmpty
     }
 
-    private fun setLayout() = with(binding.recyclerView) {
-        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        addItemDecoration(decoration)
-    }
 }

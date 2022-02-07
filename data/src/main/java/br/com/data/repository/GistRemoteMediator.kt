@@ -18,27 +18,25 @@ class GistRemoteMediator(
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Gist>): MediatorResult {
         val page = when (loadType) {
-            LoadType.REFRESH -> {
-                getRemoteKeyClosestToCurrentPosition(state)
-            }
+            LoadType.REFRESH -> GITHUB_STARTING_PAGE_INDEX
             LoadType.PREPEND -> {
-                val fistPage = firstGist(state)?.page
-                val prevKey: Int? = fistPage?.previous()
-                prevKey
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
-                val lastPage = lastGist(state)?.page
+                val lastPage = state.lastItemOrNull()?.page
                 val nextKey: Int? = lastPage?.next()
+                if(nextKey == null)
+                    return MediatorResult.Success(endOfPaginationReached = true)
                 nextKey
             }
-        } ?: GITHUB_STARTING_PAGE_INDEX
+        }
         val apiQuery = query //TODO use query for user
         return try {
-            val res = gistRepository.queryGistAndSave(page = page)
+            val res = gistRepository.queryGistAndSave(page = page, perPage = PAGE_SIZE)
             val lastPage = res.headers().findPageNumbers()?.last() ?: -1
-            Log.d("ABACATE", "$loadType $page / $lastPage, ${res.isSuccessful}")
+            val endOfPaginationReached = page >= lastPage
             if (res.isSuccessful)
-                MediatorResult.Success(endOfPaginationReached = page >= lastPage)
+                MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             else
                 MediatorResult.Error(IllegalAccessException())
         } catch (exception: IOException) {
@@ -48,25 +46,11 @@ class GistRemoteMediator(
         }
     }
 
-    private fun Int.previous() = this - 1
-
     fun Int.next() = this + 1
-
-    private fun firstGist(state: PagingState<Int, Gist>): Gist? =
-        state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-
-    private fun lastGist(state: PagingState<Int, Gist>): Gist? =
-        state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-
-    private fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, Gist>
-    ): Int = state.anchorPosition?.let { position ->
-        state.closestItemToPosition(position)?.page
-    } ?: GITHUB_STARTING_PAGE_INDEX
 
     companion object {
         const val GITHUB_STARTING_PAGE_INDEX = 1
-        const val PAGE_SIZE = 10
+        const val PAGE_SIZE = 30
     }
 
 }

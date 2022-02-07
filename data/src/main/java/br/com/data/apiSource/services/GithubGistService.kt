@@ -9,8 +9,8 @@ interface GithubGistService : Api {
 
     @GET("/gists/public")
     suspend fun getGists(
-        @Query("per_page") perPage: Int = 30,
-        @Query("page") page: Int = 1
+        @Query("per_page") perPage: Int,
+        @Query("page") page: Int
     ) : Response<List<GistDTO>>
 
 }

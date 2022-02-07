@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Gist(
-    @PrimaryKey() val id : String,
+    @PrimaryKey(autoGenerate = true) val dbId : Int = 0,
+    val id : String,
     val avatar_url: String,
     val owner_id: Int,
     val login: String,
@@ -14,8 +15,10 @@ data class Gist(
     val firstFileType : String?,
     val description: String,
     val page : Int,
-    val favorite : Boolean = false
-)
+    val updated_at: String,
+    val created_at: String,
+    val favorite : Boolean = false,
+    )
 
 
 interface GistModel{

@@ -17,7 +17,7 @@ interface GistDao : BaseDao<Gist> {
     @Query( "UPDATE Gist set favorite = :favorite where id = :gistId")
     fun favorite(gistId: String, favorite: Boolean): Int
 
-    @Query("SELECT * FROM gist ")
+    @Query("SELECT * FROM gist order by dbId ")
     fun pagingSource(): PagingSource<Int, Gist>
 
 }

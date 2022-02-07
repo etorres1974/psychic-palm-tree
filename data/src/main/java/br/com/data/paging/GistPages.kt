@@ -18,7 +18,7 @@ class GistPages(
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             remoteMediator = GistRemoteMediator(gistRepository = gistRepository, query = query),
             pagingSourceFactory = {

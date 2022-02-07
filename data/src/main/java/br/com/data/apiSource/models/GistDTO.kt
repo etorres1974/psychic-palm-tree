@@ -66,7 +66,9 @@ data class GistDTO(
         firstFileName = files.list.firstOrNull()?.filename,
         firstFileType =  files.list.firstOrNull()?.type,
         description = description ?: "",
-        page = page
+        page = page,
+        updated_at = updated_at,
+        created_at =  created_at,
    )
 
     override fun getFilesDb(): List<File> = files.list.map {

@@ -36,9 +36,9 @@ class GistRepository(
     suspend fun favoriteGist(favorite : Boolean ,  gistId : String) = gistDao.favorite(gistId, !favorite)
 
 
-    suspend fun queryGistAndSave(page : Int): Response<List<GistDTO>> {
+    suspend fun queryGistAndSave(page : Int, perPage : Int): Response<List<GistDTO>> {
         try {
-            val res = githubGistService.getGists(page = page)
+            val res = githubGistService.getGists(page = page, perPage = perPage)
             val response = res.handleResponse()
             if (response is NetworkResult.Success)
                 response.data.forEach { saveRemoteGist(it, page) }
