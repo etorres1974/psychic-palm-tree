@@ -43,9 +43,9 @@ class GistRepository(
         try {
             val res = githubGistService.getGistDetail(gistId)
             val response = res.handleResponse()
-            Log.d("ABACATE", "Details Response = ${response}")
-            if(response is NetworkResult.Success)
+            if(response is NetworkResult.Success) {
                 updateGistDetails(response.data)
+            }
             return response
         } catch (e :Exception) {
             throw e

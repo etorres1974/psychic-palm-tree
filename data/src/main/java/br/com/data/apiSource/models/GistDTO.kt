@@ -81,7 +81,7 @@ data class GistDTO(
             raw_url = it.raw_url,
             size = it.size,
             type = it.type,
-            content = it.content
+            content = if(truncated) it.content else it.content?.take(1000).plus("\n...")
         )
     }
 }

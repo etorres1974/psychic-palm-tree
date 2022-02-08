@@ -9,8 +9,6 @@
         android:layout_height="match_parent"
         tools:context=".gist.file.FileActivity">
 
-
-
         <include
             android:id="@+id/item_gist"
             layout="@layout/item_gist" />
@@ -29,7 +27,6 @@
             android:id="@+id/fcv_file"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
 
     </LinearLayout>
 </layout>

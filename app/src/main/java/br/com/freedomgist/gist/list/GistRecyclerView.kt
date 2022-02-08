@@ -31,9 +31,9 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
                     loadState.source.append, loadState.source.prepend, loadState.source.refresh,
 
                 ).filterIsInstance<LoadState.Error>()
-                if(hasError.isNotEmpty())
-                    Log.d("ABACATE", "HAS ERROR : ${hasError}")
-                onLoadStateChange(ErrorEntity.Forbidden)
+                if(hasError.isNotEmpty()) {
+                    onLoadStateChange(ErrorEntity.Forbidden)
+                }
                 observeEmpty()
             }
         }

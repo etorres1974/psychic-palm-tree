@@ -22,8 +22,7 @@ class FileAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, FileV
                 oldItem.filename == newItem.filename
 
             override fun areContentsTheSame(oldItem: File, newItem: File): Boolean =
-                oldItem.raw_url == newItem.raw_url
-
+                oldItem.content == newItem.content
         }
     }
 }

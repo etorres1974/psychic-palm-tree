@@ -3,10 +3,10 @@ package br.com.freedomgist.gist.file
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.paging.ExperimentalPagingApi
 import br.com.freedomgist.GistViewModel
 import br.com.freedomgist.R
@@ -50,9 +50,12 @@ class FileActivity() : AppCompatActivity() {
 
     private fun openFileFragment(code : CodeData){
         binding.rvFiles.isVisible = false
+        openFragment(FileFragment.getInstance(code))
+    }
+
+    private fun openFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
-        val fragment = FileFragment.getInstance(code)
         transaction.replace(R.id.fcv_file, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
