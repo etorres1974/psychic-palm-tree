@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
+import br.com.data.apiSource.network.utils.getTextFromWeb
 import br.com.data.localSource.entity.File
 import br.com.data.repository.GistRepository
 import kotlinx.coroutines.Dispatchers
@@ -19,9 +20,18 @@ class FileViewModel(
     private val _files = MutableLiveData<List<File>>()
     val files : LiveData<List<File>> = _files
 
+    private val _code = MutableLiveData<String>()
+    val code : LiveData<String> = _code
+
     fun getFiles(ownerId : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _files.postValue(gistRepository.getFilesByOwnerId(ownerId))
+        }
+    }
+
+    fun getCode(url : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _code.postValue(getTextFromWeb(url))
         }
     }
 

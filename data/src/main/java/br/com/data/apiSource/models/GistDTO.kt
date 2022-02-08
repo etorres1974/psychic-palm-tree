@@ -32,7 +32,8 @@ data class GistDTO(
         val language: String?,
         val raw_url: String,
         val size: Int,
-        val type: String
+        val type: String,
+        val content : String?
     )
 
 
@@ -78,7 +79,8 @@ data class GistDTO(
             language = it.language ?: "",
             raw_url = it.raw_url,
             size = it.size,
-            type = it.type
+            type = it.type,
+            content = it.content
         )
     }
 }

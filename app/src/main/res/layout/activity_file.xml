@@ -7,12 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".gist.file.FileActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:text="!!asdasdasdas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_files"
             android:layout_width="match_parent"
@@ -21,6 +15,11 @@
             tools:itemCount="2"
             tools:listitem="@layout/item_file"
             />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_file"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

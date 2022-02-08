@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
 import br.com.freedomgist.R
 import br.com.freedomgist.databinding.ActivityFileBinding
-import br.com.freedomgist.gist.file.file.FileAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -29,14 +29,28 @@ class FileActivity() : AppCompatActivity() {
     }
 
     private fun setupViews() = with(binding){
-        title.text = getGistId().toString()
-        rvFiles.adapter = FileAdapter()
+        rvFiles.adapter = FileAdapter(viewModel::getCode)
     }
 
     private fun setupListeners() = with(viewModel) {
         files.observe(this@FileActivity){ files ->
             (binding.rvFiles.adapter as FileAdapter).submitList(files)
         }
+        code.observe(this@FileActivity){ code ->
+            binding.rvFiles.isVisible = false
+            Log.d("ABACATE", "CODE ->$code <-")
+            val fragmentManager = supportFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            val fragment = FileFragment(code)
+            transaction.add(R.id.fcv_file, fragment)
+            transaction.addToBackStack("File")
+            transaction.commit()
+        }
+    }
+
+    override fun onBackPressed() {
+        binding.rvFiles.isVisible = true
+        super.onBackPressed()
     }
 
     private fun getGistId() = intent.extras?.getInt(OWNER_ID) ?: throw IllegalArgumentException("Gist Id is mandatory for this activity")

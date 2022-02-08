@@ -78,4 +78,8 @@ dependencies {
     //ViewPager
     def view_pager_version = "1.0.0"
     implementation("androidx.viewpager2:viewpager2:$view_pager_version")
+
+    //CodeView
+    implementation 'com.github.kbiakov:CodeView-Android:1.3.2'
+
 }

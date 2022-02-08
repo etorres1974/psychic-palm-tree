@@ -8,6 +8,7 @@ data class File(
     val filename: String,
     val language: String,
     val raw_url: String,
+    val content: String?,
     val size: Int,
     val type: String
 )

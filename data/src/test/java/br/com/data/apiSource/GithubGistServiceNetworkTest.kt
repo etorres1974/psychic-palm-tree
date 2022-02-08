@@ -26,7 +26,7 @@ class GithubGistServiceNetworkTest : KoinTest {
     @Test
     fun test_getGist_per_page_parameter() = runBlocking {
         val perPage = 2
-        val response =  githubGistService.getGists(perPage = perPage)
+        val response =  githubGistService.getGists(page= 1, perPage = perPage)
 
         assert(response.isSuccessful)
             {"Was expecting 200 but got : ${response.code()} - ${response.errorBody()}"}
