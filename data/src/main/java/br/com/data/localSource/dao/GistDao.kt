@@ -1,10 +1,11 @@
 package br.com.data.localSource.dao
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
+import br.com.data.localSource.entity.File
 import br.com.data.localSource.entity.Gist
+import br.com.data.localSource.entity.GistAndAllFiles
 import br.com.data.localSource.entity.GistFilter
 
 @Dao
@@ -24,4 +25,9 @@ interface GistDao : BaseDao<Gist> {
 
     @Query("SELECT * FROM gist where gist.favorite == 1 order by dbId ")
     fun pagingSourceFavorites(): PagingSource<Int, Gist>
+
+    @Query("SELECT * FROM gist where gist.id = :gistId Limit 1 ")
+    fun getByid(gistId: String): LiveData<GistAndAllFiles>
 }
+
+

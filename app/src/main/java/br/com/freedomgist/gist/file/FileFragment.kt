@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import br.com.freedomgist.databinding.FragmentFileBinding
-import br.com.freedomgist.databinding.FragmentGistPageBinding
+import java.lang.IllegalArgumentException
 
-class FileFragment(private val code : String) : Fragment() {
+class FileFragment() : Fragment() {
 
     private lateinit var binding : FragmentFileBinding
 
@@ -23,6 +24,26 @@ class FileFragment(private val code : String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.codeView.setCode(code)
+        setupCodeView(getCodeData())
+
+    }
+
+    private fun setupCodeView(code: CodeData) = with(binding){
+        tvCodeUrl.text = code.url
+        code.content?.let{
+            codeView.setCode(code = code.content, language = code.language)
+        }
+    }
+
+    private fun getCodeData() = arguments?.getSerializable(CODE_DATA) as? CodeData ?: throw IllegalArgumentException()
+
+
+
+    companion object{
+        private const val CODE_DATA = "CODE_DATA"
+        fun getInstance(code : CodeData): FileFragment {
+            val args = Bundle().apply { putSerializable(CODE_DATA, code) }
+            return FileFragment().apply { arguments = args }
+        }
     }
 }

@@ -12,10 +12,11 @@ import br.com.freedomgist.GistViewModel
 import br.com.freedomgist.databinding.FragmentGistPageBinding
 import br.com.freedomgist.gist.file.FileActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalArgumentException
 
 
 @OptIn(ExperimentalPagingApi::class)
-class GistFragment(private val gistFilter : GistFilter) : Fragment() {
+class GistFragment() : Fragment() {
 
     private lateinit var binding : FragmentGistPageBinding
 
@@ -38,15 +39,24 @@ class GistFragment(private val gistFilter : GistFilter) : Fragment() {
 
     private fun setupNavigationObserver(){
         viewModel.openGist.observe(this@GistFragment.viewLifecycleOwner){ gistId ->
-            Log.d("ABACATE", " id ->>>>>>${gistId}")
             val intent = FileActivity.getIntent(requireActivity().baseContext, gistId)
             startActivity(intent)
         }
     }
 
     private fun setupRecyclerView() = with(binding.gistRv){
-        setPagedViewModel(lifecycleOwner = this@GistFragment.viewLifecycleOwner, viewModel = viewModel, gistFilter = gistFilter){ err ->
+        setPagedViewModel(lifecycleOwner = this@GistFragment.viewLifecycleOwner, viewModel = viewModel, gistFilter = getGistFilter()){ err ->
             Log.d("ABA", "Gist Frag ${err}")
+        }
+    }
+
+    private fun getGistFilter() : GistFilter = arguments?.getSerializable(GIST_FILTER) as? GistFilter ?: throw IllegalArgumentException()
+
+    companion object{
+        private const val GIST_FILTER = "GIST_FILTER"
+        fun getInstance(gistFilter: GistFilter): GistFragment {
+            val args = Bundle().apply { putSerializable(GIST_FILTER, gistFilter) }
+            return GistFragment().apply { arguments = args }
         }
     }
 

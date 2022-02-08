@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
+import br.com.freedomgist.GistViewModel
 import br.com.freedomgist.R
 import br.com.freedomgist.databinding.ActivityFileBinding
+import br.com.freedomgist.gist.list.bindActions
+import br.com.freedomgist.gist.list.setupViews
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -17,13 +20,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FileActivity() : AppCompatActivity() {
 
     private val viewModel : FileViewModel by viewModel()
+    private val gistViewModell : GistViewModel by viewModel()
 
     private lateinit var binding: ActivityFileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_file)
-        viewModel.getFiles(getGistId())
+        viewModel.getGistById(getGistId())
         setupViews()
         setupListeners()
     }
@@ -33,19 +37,25 @@ class FileActivity() : AppCompatActivity() {
     }
 
     private fun setupListeners() = with(viewModel) {
-        files.observe(this@FileActivity){ files ->
-            (binding.rvFiles.adapter as FileAdapter).submitList(files)
+        gist.observe(this@FileActivity){ gistAndFiles ->
+            (binding.rvFiles.adapter as FileAdapter).submitList(gistAndFiles.files)
+            binding.itemGist.setupViews(gistAndFiles.gist)
+            binding.itemGist.bindActions(gistAndFiles.gist, gistViewModell)
         }
+
         code.observe(this@FileActivity){ code ->
-            binding.rvFiles.isVisible = false
-            Log.d("ABACATE", "CODE ->$code <-")
-            val fragmentManager = supportFragmentManager
-            val transaction = fragmentManager.beginTransaction()
-            val fragment = FileFragment(code)
-            transaction.add(R.id.fcv_file, fragment)
-            transaction.addToBackStack("File")
-            transaction.commit()
+            openFileFragment(code)
         }
+    }
+
+    private fun openFileFragment(code : CodeData){
+        binding.rvFiles.isVisible = false
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val fragment = FileFragment.getInstance(code)
+        transaction.replace(R.id.fcv_file, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onBackPressed() {
@@ -53,12 +63,12 @@ class FileActivity() : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    private fun getGistId() = intent.extras?.getInt(OWNER_ID) ?: throw IllegalArgumentException("Gist Id is mandatory for this activity")
+    private fun getGistId() = intent.extras?.getString(GIST_ID) ?: throw IllegalArgumentException("Gist Id is mandatory for this activity")
 
     companion object{
-        private const val OWNER_ID = "OWNER_ID"
-        fun getIntent(ctx : Context, ownerId : Int ) = Intent(ctx, FileActivity::class.java).apply {
-            this.putExtra(OWNER_ID, ownerId)
+        private const val GIST_ID = "GIST_ID"
+        fun getIntent(ctx : Context, gistId : String ) = Intent(ctx, FileActivity::class.java).apply {
+            this.putExtra(GIST_ID, gistId)
         }
     }
 }

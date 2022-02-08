@@ -2,10 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".gist.file.FileActivity">
+
+
+
+        <include
+            android:id="@+id/item_gist"
+            layout="@layout/item_gist" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_files"
@@ -17,9 +25,11 @@
             />
 
         <androidx.fragment.app.FragmentContainerView
+            android:tag="fcv_file"
             android:id="@+id/fcv_file"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 </layout>

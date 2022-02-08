@@ -1,5 +1,6 @@
 package br.com.data.apiSource.network.utils
 
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -22,7 +23,7 @@ fun getTextFromWeb(urlString: String?): String {
         `is`.close() // close input stream
         placeAddress.joinToString(separator = "\n")
     } catch (e: Exception) {
-        e.printStackTrace()
+        Log.e("ABACATE", "Web Text Faill ${e}")
         ""
     }
 }

@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import br.com.data.localSource.entity.Gist
+import br.com.freedomgist.gist.GistActions
 
 class GistAdapter(
-    private val onClickGist: (Int) -> Unit,
-    private val onFavorite : (Boolean, String) -> Unit
+    private val gistActions: GistActions
 ) : PagingDataAdapter<Gist, GistViewHolder>(GIST_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
@@ -16,7 +16,7 @@ class GistAdapter(
 
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         val gistItem = getItem(position)
-        holder.bind(gistItem, onClickGist, onFavorite)
+        holder.bind(gistItem, gistActions)
     }
 
     companion object {

@@ -1,12 +1,11 @@
 package br.com.freedomgist.gist.file
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.gesture.GestureStore
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.ExperimentalPagingApi
-import br.com.data.apiSource.network.utils.getTextFromWeb
 import br.com.data.localSource.entity.File
+import br.com.data.localSource.entity.GistAndAllFiles
 import br.com.data.repository.GistRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,21 +16,31 @@ class FileViewModel(
     private val gistRepository: GistRepository,
 ) : ViewModel() {
 
-    private val _files = MutableLiveData<List<File>>()
-    val files : LiveData<List<File>> = _files
+    private var _gist = MediatorLiveData<GistAndAllFiles>()
+    val gist : LiveData<GistAndAllFiles> = _gist
 
-    private val _code = MutableLiveData<String>()
-    val code : LiveData<String> = _code
+    private val _code = MutableLiveData<CodeData>()
+    val code : LiveData<CodeData> = _code
 
-    fun getFiles(ownerId : Int) {
+    fun getGistById(gistId: String) {
+        fetchGistUpdate(gistId)
         viewModelScope.launch(Dispatchers.IO) {
-            _files.postValue(gistRepository.getFilesByOwnerId(ownerId))
+            _gist.addSource(gistRepository.getGistById(gistId)){
+                _gist.value = it
+            }
         }
     }
 
-    fun getCode(url : String){
+    private fun fetchGistUpdate(gistId: String) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("ABACATE", "File VM ${gistId}")
+        gistRepository.updateGistDetails(gistId)
+    }
+
+    fun getCode(file : File){
         viewModelScope.launch(Dispatchers.IO) {
-            _code.postValue(getTextFromWeb(url))
+            val codeData = CodeData(url = file.raw_url, content = file.content, language = file.language)
+            Log.d("ABACATE", "Code data : ${codeData.content?.isEmpty()}, ${codeData.language}")
+            _code.postValue(codeData)
         }
     }
 

@@ -1,5 +1,6 @@
 package br.com.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
@@ -31,30 +32,50 @@ class GistRepository(
 
     fun getFavoriteGists() = gistDao.getFavorites()
 
+    fun getGistById(gistId : String) = gistDao.getByid(gistId)
+
     fun getFiles() = fileDao.getAll()
     fun getFilesByOwnerId( ownerId : Int) = fileDao.getByOwnerId(ownerId)
 
     suspend fun favoriteGist(favorite : Boolean ,  gistId : String) = gistDao.favorite(gistId, !favorite)
 
-
-    suspend fun queryGistAndSave(page: Int, perPage: Int, filter: GistFilter): Response<List<GistDTO>> {
+    suspend fun updateGistDetails(gistId : String): NetworkResult<GistDTO> {
         try {
-            val res = githubGistService.getGists(page = page, perPage = perPage)
+            val res = githubGistService.getGistDetail(gistId)
             val response = res.handleResponse()
-            if (response is NetworkResult.Success)
-                response.data.forEach { saveRemoteGist(it, page) }
-            return res
-        }catch (e : Exception){
+            Log.d("ABACATE", "Details Response = ${response}")
+            if(response is NetworkResult.Success)
+                updateGistDetails(response.data)
+            return response
+        } catch (e :Exception) {
             throw e
         }
     }
 
-    private suspend fun saveRemoteGist(gist : GistDTO, page : Int) = withContext(Dispatchers.IO){
-        val gistDb = gist.toDbModel(page)
-        val files = gist.getFilesDb()
-        gistDao.insert(gistDb)
-        files.forEach {  file ->
-            fileDao.insert(file)
+    suspend fun queryGistAndSave(page: Int, perPage: Int, filter: GistFilter): Response<List<GistDTO>> {
+            try {
+                val res = githubGistService.getGists(page = page, perPage = perPage)
+                val response = res.handleResponse()
+                if (response is NetworkResult.Success)
+                    response.data.forEach { saveRemoteGist(it, page) }
+                return res
+            }catch (e : Exception){
+                throw e
+            }
         }
-    }
+
+        private suspend fun saveRemoteGist(gist : GistDTO, page : Int) = withContext(Dispatchers.IO){
+            val gistDb = gist.toDbModel(page)
+            val files = gist.getFilesDb()
+            gistDao.insert(gistDb)
+            files.forEach {  file ->
+                fileDao.insert(file)
+            }
+        }
+
+        private suspend fun updateGistDetails(gist : GistDTO) = withContext(Dispatchers.IO){
+            gist.getFilesDb().forEach { file ->
+                fileDao.update(file)
+            }
+        }
 }

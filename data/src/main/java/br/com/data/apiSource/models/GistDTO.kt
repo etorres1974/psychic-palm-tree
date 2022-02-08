@@ -33,7 +33,8 @@ data class GistDTO(
         val raw_url: String,
         val size: Int,
         val type: String,
-        val content : String?
+        val content : String?,
+        val truncated: Boolean?
     )
 
 

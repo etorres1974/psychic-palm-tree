@@ -1,6 +1,8 @@
 package br.com.data.localSource.entity
 
-enum class GistFilter{
+import java.io.Serializable
+
+enum class GistFilter {
     All,
     Favorites
 }

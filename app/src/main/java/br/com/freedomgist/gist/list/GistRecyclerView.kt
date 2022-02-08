@@ -39,9 +39,9 @@ class GistRecyclerView(context: Context, attrs: AttributeSet) : LinearLayout(con
         }
     }
 
-    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModel, gistFilter : GistFilter, onLoadStateChange : (ErrorEntity) -> Unit,) =
+    fun setPagedViewModel(lifecycleOwner: LifecycleOwner, viewModel: GistViewModelInterface, gistFilter : GistFilter, onLoadStateChange : (ErrorEntity) -> Unit,) =
         with(binding.recyclerView) {
-            adapter = GistAdapter(viewModel::onClickGist, viewModel::onFavoriteGist)
+            adapter = GistAdapter(viewModel)
             viewModel.gisPagestLivedata(gistFilter).observe(lifecycleOwner) { pagingData ->
                 (this.adapter as GistAdapter).submitData(
                     lifecycleOwner.lifecycle,

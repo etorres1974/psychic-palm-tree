@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import br.com.data.localSource.entity.File
 
-class FileAdapter(private val onClick: (String) -> Unit) : ListAdapter<File, FileViewHolder>(FILE_COMPARATOR) {
+class FileAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, FileViewHolder>(FILE_COMPARATOR) {
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         val fileItem = getItem(position)

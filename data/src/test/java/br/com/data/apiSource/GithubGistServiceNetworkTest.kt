@@ -61,6 +61,19 @@ class GithubGistServiceNetworkTest : KoinTest {
         val last = link.split(",").last()
         assertEquals(15, next.findPageValueInString())
         assertEquals(34, last.findPageValueInString())
+    }
 
+    @Test
+    fun gist_details_has_file_content() = runBlocking {
+        val gistIdExample = "8d1aa28c0da3faf260b5dbaf8f9eadab"
+        val response =  githubGistService.getGistDetail(gistIdExample)
+
+        assert(response.isSuccessful)
+            {"Was expecting 200 but got : ${response.code()} - ${response.errorBody()}"}
+
+        val gist = response.body()
+        val filesHaveContent = gist?.files?.list?.all { it.content != null } ?: false
+
+        assert(filesHaveContent) {" Filhes should have content :${gist?.files }"}
     }
 }

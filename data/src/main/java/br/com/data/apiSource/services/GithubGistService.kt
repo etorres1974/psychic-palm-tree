@@ -5,6 +5,7 @@ import br.com.data.repository.GistRemoteMediator.Companion.GITHUB_STARTING_PAGE_
 import br.com.data.repository.GistRemoteMediator.Companion.PAGE_SIZE
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GithubGistService : Api {
@@ -14,5 +15,10 @@ interface GithubGistService : Api {
         @Query("per_page") perPage: Int = PAGE_SIZE,
         @Query("page") page: Int = GITHUB_STARTING_PAGE_INDEX
     ) : Response<List<GistDTO>>
+
+    @GET("/gists/{id}")
+    suspend fun getGistDetail(
+        @Path("id")  gistId : String
+    ) : Response<GistDTO>
 
 }

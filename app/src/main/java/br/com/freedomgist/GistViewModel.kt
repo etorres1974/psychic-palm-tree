@@ -13,7 +13,7 @@ import br.com.data.localSource.entity.Gist
 import br.com.data.localSource.entity.GistFilter
 import br.com.data.repository.AuthRepository
 import br.com.data.repository.GistRepository
-import br.com.freedomgist.gist.list.GistViewModel
+import br.com.freedomgist.gist.list.GistViewModelInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,17 +22,21 @@ import kotlinx.coroutines.launch
 class GistViewModel(
     private val gistRepository: GistRepository,
     private val authRepository: AuthRepository
-) : ViewModel(), GistViewModel {
+) : ViewModel(), GistViewModelInterface {
 
     override fun gisPagestLivedata(gistFilter: GistFilter): LiveData<PagingData<Gist>> = gistRepository.getPagedGists(gistFilter)
 
-    private val _openGist = MutableLiveData<Int>()
-    override val openGist: LiveData<Int> = _openGist
+    private val _openGist = MutableLiveData<String>()
+    override val openGist: LiveData<String> = _openGist
 
-    override fun onClickGist(id: Int) {
+    override fun onClickGist(gistId : String){
         viewModelScope.launch(Dispatchers.IO) {
-            _openGist.postValue(id)
+            _openGist.postValue(gistId)
         }
+    }
+
+    override fun onClickOwner(ownerId: Int) {
+        TODO("Not yet implemented")
     }
 
     override fun onFavoriteGist(favorite : Boolean, id: String) {

@@ -6,18 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import br.com.data.localSource.entity.GistFilter
-import br.com.freedomgist.GistViewModel
 import br.com.freedomgist.R
 import br.com.freedomgist.databinding.ActivityGistBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class GistActivity : FragmentActivity() {
 
     private lateinit var binding : ActivityGistBinding
-
-    private val viewModel : GistViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +21,6 @@ class GistActivity : FragmentActivity() {
         setupViewPager()
 
     }
-
-
 
     private fun setupViewPager()= with(binding){
         val pagerAdapter = GistFilterFragmentStateAdapter(this@GistActivity)
@@ -42,7 +36,7 @@ class GistActivity : FragmentActivity() {
         override fun getItemCount(): Int = tabs.size
 
         override fun createFragment(position: Int): Fragment =
-            GistFragment(tabs[position])
+            GistFragment.getInstance(tabs[position])
 
     }
 }

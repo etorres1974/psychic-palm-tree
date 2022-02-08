@@ -20,7 +20,7 @@ val DEFAULT_HEADER_INTERCEPTOR = object : Interceptor {
 }
 
 val LOGGER_INTERCEPTOR =  HttpLoggingInterceptor().apply {
-    level = HttpLoggingInterceptor.Level.BODY
+    level = HttpLoggingInterceptor.Level.HEADERS
 }
 
 object AUTH {

@@ -1,8 +1,6 @@
 package br.com.data.localSource.entity
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(indices = [Index(value = ["id"], unique = true)])
 data class Gist(
@@ -25,3 +23,10 @@ data class Gist(
 interface GistModel{
     fun toDbModel(page : Int) : Gist
 }
+
+class GistAndAllFiles(
+    @Embedded
+    val gist : Gist,
+    @Relation(parentColumn = "owner_id", entityColumn = "owner_id")
+    val files : List<File>
+)
