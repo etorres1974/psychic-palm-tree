@@ -1,9 +1,9 @@
-##Freedom Gist
+### Freedom Gist
 
 Freedom Gist é um app Android Kotlin consumindo a [api de gists do github]( https://developer.github.com/v3/gists/#list%E2%80%90all%E2%80%90public%E2%80%90gists)
 
 ![Alt text](screen.png)
-###Features
+### Features
 [X] Lista de gists publicos
 [X] Lista de arquivos por gist
 [X] Inspecionar conteudo dos arquivos
@@ -13,7 +13,7 @@ Freedom Gist é um app Android Kotlin consumindo a [api de gists do github]( htt
 [X] Testes Unitários Banco
 [X] Um App bacana
 
-###Arquitetura
+### Arquitetura
 A applicação possui uma tela inicial com um scroll infinito para a visualização dos Gists utilizando o [RemoteMediator](https://developer.android.com/topic/libraries/architecture/paging/v3-network-db) para exibir dados paginados salvos localmente no banco de dados, dessa forma a aplicação fica divida confrome o diagrama abaixo.
 
 ![Alt text](diagram.jpg)
