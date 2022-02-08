@@ -15,17 +15,18 @@ class GistDaoTest : InstrumentedTest() {
     @Test
     fun insert_gist_on_dao() = runBlocking {
         assert(gistDao.getAll().isEmpty())
-        val gist = Gist("1", "", 1, "", "")
+        val gistDTO = MockGistProvider.getSingle()
+        val gist = gistDTO.toDbModel(1)
         gistDao.insert(gist)
         val result = gistDao.getAll()
-        assertEquals(gist , result.first())
+        assertEquals(gist.id , result.first().id)
         assertEquals(1 ,result.size)
     }
 
     @Test
     fun convert_api_gist_into_db_gist_model() = runBlocking {
         val gist = MockGistProvider.getSingle()
-        val dbGist = gist.toDbModel()
+        val dbGist = gist.toDbModel(1)
 
         assert(gistDao.getAll().isEmpty())
             {"GistDao should start empty"}
@@ -33,7 +34,7 @@ class GistDaoTest : InstrumentedTest() {
         gistDao.insert(dbGist)
 
         val result = gistDao.getAll()
-        assert(dbGist == result.first())
+        assert(dbGist.id == result.first().id)
             {"Was expecting $gist but got: $result"}
 
     }

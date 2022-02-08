@@ -1,4 +1,4 @@
-package br.com.freedomgist
+package br.com.freedomgist.gist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

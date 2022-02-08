@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.paging.ExperimentalPagingApi
 import br.com.data.localSource.entity.GistFilter
-import br.com.freedomgist.GistViewModel
 import br.com.freedomgist.databinding.FragmentGistPageBinding
 import br.com.freedomgist.gist.file.FileActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel

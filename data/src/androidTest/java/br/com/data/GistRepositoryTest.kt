@@ -18,7 +18,7 @@ class GistRepositoryTest  : InstrumentedTest() {
         mockWebServer = MockGithubGistService().successApi()
     }
 
-    fun assertCleanInitialState() = runBlocking{
+    private fun assertCleanInitialState() = runBlocking{
         assert(gistRepository.getGists().isEmpty())
         {"Test initial state should have 0 Gists  but got ${gistRepository.getGists().size}"}
         gistRepository.queryGistAndSave(1,5, GistFilter.All)
@@ -65,7 +65,7 @@ class GistRepositoryTest  : InstrumentedTest() {
             {"Test initial state should be all gists favorite false"}
 
         gists.forEach {
-            gistRepository.favoriteGist(true, it.id)
+            gistRepository.favoriteGist(it.favorite, it.id)
         }
 
         val afteFavorite = gistRepository.getGists().all {it.favorite}
@@ -84,13 +84,12 @@ class GistRepositoryTest  : InstrumentedTest() {
             {" Initial sate should have 0 favorites, but got${favoriteGists.size}"}
 
         val gists = gistRepository.getGists()
-        gistRepository.favoriteGist(true, gists.first().id)
-        gistRepository.favoriteGist(true, gists.last().id)
+        gistRepository.favoriteGist(false, gists.first().id)
+        gistRepository.favoriteGist(false, gists.last().id)
 
         val afteFavorite = gistRepository.getFavoriteGists()
         assertEquals(2, afteFavorite.count { it.favorite  })
         assertEquals(2, afteFavorite.size)
-
     }
 
 

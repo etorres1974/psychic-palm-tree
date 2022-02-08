@@ -15,7 +15,8 @@ class FileDaoTest : InstrumentedTest() {
     @Test
     fun insert_gist_on_dao() = runBlocking {
         assert(fileDao.getAll().isEmpty())
-        val file = File(1, "", "", "", 1, "")
+        val gistDTO = MockGistProvider.getSingle()
+        val file = File(1, "", "", "", "1", 1,"")
         fileDao.insert(file)
         val result = fileDao.getAll()
         assertEquals(file , result.first())
