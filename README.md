@@ -1,6 +1,6 @@
 ##Freedom Gist
 
-Freedom Gist é um app Android Kotlin consumindo a api de gists do github ( https://developer.github.com/v3/gists/#list%E2%80%90all%E2%80%90public%E2%80%90gists)
+Freedom Gist é um app Android Kotlin consumindo a [api de gists do github]( https://developer.github.com/v3/gists/#list%E2%80%90all%E2%80%90public%E2%80%90gists)
 
 ![Alt text](screen.png)
 ###Features
