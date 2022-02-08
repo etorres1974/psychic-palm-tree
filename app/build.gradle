@@ -37,6 +37,25 @@ android {
         jvmTarget = '1.8'
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("Blue") {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "version"
+            applicationIdSuffix = ".blue"
+            versionNameSuffix = "-blue"
+            resValue "string", "app_name", "Blue Gist"
+        }
+        create("Red") {
+            dimension = "version"
+            applicationIdSuffix = ".red"
+            versionNameSuffix = "-red"
+            resValue "string", "app_name", "Red Gist"
+        }
+    }
 }
 
 dependencies {

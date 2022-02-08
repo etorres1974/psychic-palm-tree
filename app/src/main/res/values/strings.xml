@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">FreedomGist</string>
     <string name="search_hint">Github Gists</string>
     <string name="no_results">No results \n ¯\\_(ツ)_/¯</string>
     <string name="unknown">\?</string>

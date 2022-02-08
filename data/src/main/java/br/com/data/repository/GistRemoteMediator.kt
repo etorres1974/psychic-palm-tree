@@ -41,7 +41,7 @@ class GistRemoteMediator(
             val res = gistRepository.queryGistAndSave(filter = filter, page = page, perPage = PAGE_SIZE)
             val lastPage = res.headers().findPageNumbers()?.last() ?: -1
             val endOfPaginationReached = page >= lastPage
-            if (res.isSuccessful)
+            if (res.isSuccessful && lastPage != -1)
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             else
                 MediatorResult.Error(IllegalAccessException())
