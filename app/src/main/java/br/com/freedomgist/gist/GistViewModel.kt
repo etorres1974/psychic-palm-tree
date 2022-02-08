@@ -1,4 +1,4 @@
-package br.com.freedomgist
+package br.com.freedomgist.gist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
-import br.com.data.apiSource.models.DeviceCode
-import br.com.data.apiSource.network.utils.ErrorEntity
-import br.com.data.apiSource.network.utils.handleResult
 import br.com.data.localSource.entity.Gist
 import br.com.data.localSource.entity.GistFilter
 import br.com.data.repository.AuthRepository
@@ -43,16 +40,6 @@ class GistViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             gistRepository.favoriteGist(favorite, id)
         }
-    }
-
-    val userCodeLiveData = MutableLiveData<DeviceCode>()
-    val errorEntityLiveData = MutableLiveData<ErrorEntity>()
-
-    fun askPermissionCode() = viewModelScope.launch(Dispatchers.IO) {
-        authRepository.fetchUserCode().handleResult(
-            success = {  userCodeLiveData.postValue(it) },
-            error = { error -> errorEntityLiveData.postValue(error) }
-        )
     }
 }
 

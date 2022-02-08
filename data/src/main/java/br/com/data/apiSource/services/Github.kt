@@ -12,7 +12,7 @@ interface Github : Api {
     @POST("/login/device/code")
     suspend fun getDeviceCode(
         @Query("client_id") clientId : String = BuildConfig.github_client_id
-    ) : Response<DeviceCode?>
+    ) : Response<DeviceCode>
 
 
     @POST("/login/oauth/access_token")

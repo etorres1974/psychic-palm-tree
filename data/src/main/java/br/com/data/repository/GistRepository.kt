@@ -78,4 +78,8 @@ class GistRepository(
                 fileDao.update(file)
             }
         }
+
+    suspend fun invalidateGists() = withContext(Dispatchers.IO) {
+        gistDao.invalidateGists()
+    }
 }

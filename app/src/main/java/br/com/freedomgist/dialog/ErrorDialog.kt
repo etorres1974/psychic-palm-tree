@@ -7,17 +7,35 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import br.com.data.apiSource.models.DeviceCode
 import br.com.data.apiSource.network.utils.ErrorEntity
 import br.com.freedomgist.R
 
 class ErrorDialog() : DialogFragment() {
 
-    private lateinit var errorEntity : ErrorEntity
+    private var errorEntity : ErrorEntity? = null
+    private var onConfirm: (() -> Unit) = {}
+    private var onDismiss: (() -> Unit) = {}
 
-    fun addError(fragmentManager: FragmentManager, errorEntity: ErrorEntity) {
-        this.errorEntity = errorEntity
+    private var deviceCode : DeviceCode? = null
+
+
+    fun deviceCode(fragmentManager: FragmentManager, deviceCode: DeviceCode, onConfirm: (() -> Unit) = {} , onDismiss : (() -> Unit) = {} ) {
+        this.deviceCode = deviceCode
+        this.onConfirm = onConfirm
+        this.onDismiss = onDismiss
         show(fragmentManager ,TAG)
     }
+
+    fun addError(fragmentManager: FragmentManager, errorEntity: ErrorEntity, onConfirm: (() -> Unit) = {} , onDismiss : (() -> Unit) = {} ) {
+        this.errorEntity = errorEntity
+        this.onConfirm = onConfirm
+        this.onDismiss = onDismiss
+        show(fragmentManager ,TAG)
+    }
+
+
+
 
     override fun show(manager: FragmentManager, tag: String?) {
         if(!this.isAdded) {
@@ -31,15 +49,22 @@ class ErrorDialog() : DialogFragment() {
         requireActivity().buildDialog(
             DialogData(
                 title = getString(R.string.error_title),
-                message = getString(errorEntity.resolveMessage())
+                message = getString(errorEntity.resolveMessage()) + codeMessage(),
+                onConfirm = onConfirm,
+                onDismiss = onDismiss
             )
         )
 
-    private fun ErrorEntity.resolveMessage() = when(this){
-        is ErrorEntity.Forbidden -> R.string.error_forbidden_message
-        is ErrorEntity.NetworkError -> R.string.error_network_message
-        is ErrorEntity.ValidationError -> R.string.error_validation_error
-        is ErrorEntity.Unknown -> R.string.error_unknown_error
+    private fun codeMessage() = "\n" + deviceCode?.user_code ?: ""
+
+
+    private fun ErrorEntity?.resolveMessage() = when{
+        this == null && deviceCode != null -> R.string.use_code
+        this is ErrorEntity.Forbidden -> R.string.error_forbidden_message
+        this is ErrorEntity.NetworkError -> R.string.error_network_message
+        this is ErrorEntity.ValidationError -> R.string.error_validation_error
+        else  -> R.string.error_unknown_error
+
     }
 
     private fun Context.buildDialog(dialogData: DialogData): Dialog = with(AlertDialog.Builder(this)) {

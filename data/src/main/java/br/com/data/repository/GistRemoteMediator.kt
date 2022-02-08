@@ -26,7 +26,7 @@ class GistRemoteMediator(
         val page = when (loadType) {
             LoadType.REFRESH -> GITHUB_STARTING_PAGE_INDEX
             LoadType.PREPEND -> {
-                return MediatorResult.Success(endOfPaginationReached = true)
+                return MediatorResult.Success(endOfPaginationReached = false)
             }
             LoadType.APPEND -> {
                 val lastPage = state.lastItemOrNull()?.page
@@ -36,10 +36,10 @@ class GistRemoteMediator(
                 nextKey
             }
         }
-        Log.d("Abacate", "${loadType} - Page :${ page}")
         return try {
             val res = gistRepository.queryGistAndSave(filter = filter, page = page, perPage = PAGE_SIZE)
             val lastPage = res.headers().findPageNumbers()?.last() ?: -1
+            Log.d("Abacate", "${loadType} - Page :${page} / $lastPage")
             val endOfPaginationReached = page >= lastPage
             if (res.isSuccessful)
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -53,10 +53,11 @@ class GistRemoteMediator(
     }
 
     fun Int.next() = this + 1
+    fun Int.prev() = this - 1
 
     companion object {
         const val GITHUB_STARTING_PAGE_INDEX = 1
-        const val PAGE_SIZE = 15
+        const val PAGE_SIZE = 5
     }
 
 }

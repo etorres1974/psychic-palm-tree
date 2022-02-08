@@ -1,16 +1,23 @@
 package br.com.freedomgist.gist
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.paging.ExperimentalPagingApi
+import br.com.data.apiSource.network.utils.ErrorEntity
+import br.com.data.apiSource.network.utils.handleResult
 import br.com.data.localSource.entity.GistFilter
-import br.com.freedomgist.GistViewModel
+import br.com.freedomgist.AuthViewModel
 import br.com.freedomgist.databinding.FragmentGistPageBinding
+import br.com.freedomgist.dialog.ErrorDialog
 import br.com.freedomgist.gist.file.FileActivity
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.IllegalArgumentException
 
@@ -21,6 +28,7 @@ class GistFragment() : Fragment() {
     private lateinit var binding : FragmentGistPageBinding
 
     private val viewModel : GistViewModel by viewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +54,10 @@ class GistFragment() : Fragment() {
 
     private fun setupRecyclerView() = with(binding.gistRv){
         setPagedViewModel(lifecycleOwner = this@GistFragment.viewLifecycleOwner, viewModel = viewModel, gistFilter = getGistFilter()){ err ->
-            Log.d("ABA", "Gist Frag ${err}")
+           // showError(err)
         }
     }
+
 
     private fun getGistFilter() : GistFilter = arguments?.getSerializable(GIST_FILTER) as? GistFilter ?: throw IllegalArgumentException()
 

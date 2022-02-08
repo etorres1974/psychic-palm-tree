@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.paging.ExperimentalPagingApi
-import br.com.freedomgist.GistViewModel
+import br.com.freedomgist.gist.GistViewModel
 import br.com.freedomgist.R
 import br.com.freedomgist.databinding.ActivityFileBinding
 import br.com.freedomgist.gist.list.bindActions

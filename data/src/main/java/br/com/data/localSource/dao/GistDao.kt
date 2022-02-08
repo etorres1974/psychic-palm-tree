@@ -28,6 +28,9 @@ interface GistDao : BaseDao<Gist> {
 
     @Query("SELECT * FROM gist where gist.id = :gistId Limit 1 ")
     fun getByid(gistId: String): LiveData<GistAndAllFiles>
+
+    @Query("UPDATE gist set updated_at = :updated_at")
+    fun invalidateGists(updated_at : String = "")
 }
 
 

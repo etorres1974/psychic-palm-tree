@@ -1,5 +1,6 @@
 package br.com.data.apiSource.network.utils
 
+import android.util.Log
 import retrofit2.Response
 import java.net.UnknownHostException
 import kotlin.Exception
@@ -30,12 +31,15 @@ fun <T> Response<T>.handleResponse( ): NetworkResult<T> = try {
     } ?: when {
         this.code() == 403 -> NetworkResult.Error(ErrorEntity.Forbidden)
         this.code() == 422 -> NetworkResult.Error(ErrorEntity.ValidationError)
-        else -> NetworkResult.Error(ErrorEntity.Unknown)
+        else -> NetworkResult.Error(ErrorEntity.ValidationError)
     }
 }catch (e : Exception){
     when (e) {
         is UnknownHostException -> NetworkResult.Error(ErrorEntity.NetworkError)
-        else -> NetworkResult.Error(ErrorEntity.Unknown)
+        else -> {
+            Log.d("ABACATE", "handle Res : ${e}")
+            NetworkResult.Error(ErrorEntity.Unknown)
+        }
     }
 
 }
@@ -49,6 +53,7 @@ fun <T> NetworkResult<T>.handleResult(
         is NetworkResult.Error<T> -> error(errorEntity)
     }
 }catch (e : Exception){
+    Log.d("ABACATE", "handleResult ${e}")
      error(ErrorEntity.Unknown)
 }
 

@@ -1,5 +1,6 @@
 package br.com.data.apiSource.network.utils
 
+import br.com.data.apiSource.models.DeviceCode
 import br.com.data.localSource.entity.Auth
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -10,7 +11,7 @@ val DEFAULT_HEADER_INTERCEPTOR = object : Interceptor {
         chain.proceed(
             chain.request().newBuilder()
                 .addHeader(ACCEPT_HEADER_PARAMETER, ACCEPT_HEADER_VALUE)
-                .addHeader(AUTHORIZATION, AUTH.value.toString())
+                .addHeader(AUTHORIZATION, AUTH.token.toString())
                 .build()
         )
 
@@ -20,9 +21,10 @@ val DEFAULT_HEADER_INTERCEPTOR = object : Interceptor {
 }
 
 val LOGGER_INTERCEPTOR =  HttpLoggingInterceptor().apply {
-    level = HttpLoggingInterceptor.Level.HEADERS
+    level = HttpLoggingInterceptor.Level.BODY
 }
 
 object AUTH {
-    var value : Auth = Auth("", "")
+    var token : Auth? = null
+    var deviceCode : DeviceCode?  = null
 }

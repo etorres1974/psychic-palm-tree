@@ -11,3 +11,4 @@ fun ImageView.loadImageUrl(url : String){
         .placeholder(R.drawable.ic_launcher_foreground)
         .into(this)
 }
+
