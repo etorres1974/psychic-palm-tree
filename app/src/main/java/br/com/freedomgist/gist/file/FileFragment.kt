@@ -1,9 +1,12 @@
 package br.com.freedomgist.gist.file
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import br.com.freedomgist.databinding.FragmentFileBinding
@@ -38,9 +41,15 @@ class FileFragment() : Fragment() {
 }
 
 fun FragmentFileBinding.setupCodeView(code: CodeData){
-    tvCodeUrl.text = code.url
+    tvCodeUrl.isVisible = code.content == null
     tvEmpty.isVisible =  code.content == null
     codeView.isVisible = code.content != null
+
+    tvCodeUrl.text = code.url
+    tvCodeUrl.setOnClickListener {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(code.url))
+        startActivity(it.context, browserIntent, Bundle())
+    }
     code.content?.let{
         codeView.text = it
     }

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+        android:layout_margin="8dp"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
     <TextView
+        android:textColor="#80B4F8"
         android:id="@+id/tv_code_url"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
         <ScrollView
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
