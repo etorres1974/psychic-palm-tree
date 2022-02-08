@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import br.com.data.localSource.entity.Gist
 
 class GistAdapter(
-    private val onClickGist: (String) -> Unit,
+    private val onClickGist: (Int) -> Unit,
     private val onFavorite : (Boolean, String) -> Unit
 ) : PagingDataAdapter<Gist, GistViewHolder>(GIST_COMPARATOR) {
 
@@ -15,8 +15,8 @@ class GistAdapter(
     }
 
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
-        val repoItem = getItem(position)
-        holder.bind(repoItem, onClickGist, onFavorite)
+        val gistItem = getItem(position)
+        holder.bind(gistItem, onClickGist, onFavorite)
     }
 
     companion object {

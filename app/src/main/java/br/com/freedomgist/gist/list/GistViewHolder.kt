@@ -13,10 +13,13 @@ class GistViewHolder (
     private val binding : ItemGistBinding
     ): RecyclerView.ViewHolder(binding.root){
 
-    fun bind(gist: Gist?, onClickGist: (String) -> Unit, onFavorite : (Boolean, String) -> Unit ) = with(binding){
+    fun bind(gist: Gist?, onClickGist: (Int) -> Unit, onFavorite : (Boolean, String) -> Unit ) = with(binding){
         gist?.let {
             binding.gist = gist
-            root.setOnClickListener { onClickGist(gist.id) }
+
+            root.setOnClickListener {
+                onClickGist(gist.owner_id)
+            }
             ivUser.loadImageUrl(gist.avatar_url)
 
             val starDrawable = when {

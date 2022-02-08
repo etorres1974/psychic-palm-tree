@@ -14,7 +14,7 @@
         android:theme="@style/Theme.FreedomGist" >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".gist.file.FileActivity"
             android:exported="true"
             >
 
