@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalPagingApi::class)
 val viewModelsModules = module {
-    viewModel { GistViewModel(get(), get()) }
+    viewModel { GistViewModel(get(), get(), get()) }
     viewModel { FileViewModel(get()) }
 }
 

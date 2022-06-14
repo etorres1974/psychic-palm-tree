@@ -49,6 +49,7 @@ android {
             versionNameSuffix = "-blue"
             resValue "string", "app_name", "Blue Gist"
         }
+
         create("Red") {
             dimension = "version"
             applicationIdSuffix = ".red"
@@ -97,5 +98,4 @@ dependencies {
     //ViewPager
     def view_pager_version = "1.0.0"
     implementation("androidx.viewpager2:viewpager2:$view_pager_version")
-
 }

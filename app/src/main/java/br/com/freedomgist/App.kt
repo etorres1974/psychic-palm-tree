@@ -9,6 +9,9 @@ class App : DataApplication() {
 
     override fun allModules(): List<Module> =
         super.allModules().plus(
-            viewModelsModules
+            listOf(
+                flavourModules,
+                viewModelsModules
+            )
         )
 }

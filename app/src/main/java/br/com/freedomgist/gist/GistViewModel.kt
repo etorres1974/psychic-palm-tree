@@ -1,5 +1,6 @@
 package br.com.freedomgist.gist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import br.com.data.localSource.entity.Gist
 import br.com.data.localSource.entity.GistFilter
 import br.com.data.repository.AuthRepository
 import br.com.data.repository.GistRepository
+import br.com.freedomgist.Flavours
 import br.com.freedomgist.gist.list.GistViewModelInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,13 +23,18 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagingApi::class)
 class GistViewModel(
     private val gistRepository: GistRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val flavor : Flavours
 ) : ViewModel(), GistViewModelInterface {
 
     override fun gisPagestLivedata(gistFilter: GistFilter): LiveData<PagingData<Gist>> = gistRepository.getPagedGists(gistFilter)
 
     private val _openGist = MutableLiveData<String>()
     override val openGist: LiveData<String> = _openGist
+
+    init{
+        Log.d("Flavour" , "${flavor}")
+    }
 
     override fun onClickGist(gistId : String){
         viewModelScope.launch(Dispatchers.IO) {
